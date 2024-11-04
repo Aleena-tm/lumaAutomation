@@ -9,6 +9,7 @@ class Cartpage extends Common{
         this.$priceInCart=data=>$(`(//span[@class="cart-price"])[${data}]`);
         this.$quantityInCart=()=>$(`//input[@class="input-text qty"]`);
         this.$proceedToCheckout=()=>$(`//button[@title="Proceed to Checkout"]/span[.="Proceed to Checkout"]`);
+        this.$checkoutHeader=()=>$(`//div[.="Shipping Address"]`);
     }
 
     /**
@@ -31,6 +32,7 @@ class Cartpage extends Common{
      */
     async moveToCheckoutPage(){
         await this.scrollAndClick(this.$proceedToCheckout());
+        await this.$checkoutHeader().waitForDisplayed({timeout:5000, timeoutMsg:"User should be navigated to checkout page"});
     }
 }
 

@@ -19,7 +19,8 @@ let errorMessages =[errorMessage, passwordStrength];
 let nameAndPrice =[nameOfProduct, priceOfProduct];
 let productDetails =[productName, productPrice];
 let detailsOfCartPopup =[nameMiniCart, priceMiniCart, totalMiniCart];
-let cartPageDetails =[], shippingDetails =[];
+let cartPageDetails =[];
+let shippingProductDetails =[];
 
 describe("End to end workflow for Luma", () => {
   it("Load URL of the webpage", async () => {
@@ -420,7 +421,7 @@ describe("End to end workflow for Luma", () => {
 
   it("User should navigate to the checkout page", async()=>{
     await cartPage.moveToCheckoutPage();
-    expect(await checkoutPage.$checkoutHeader().isDisplayed())
+    expect(await cartPage.$checkoutHeader().isDisplayed())
       .withContext("User should be navigated to the checkout page")
       .toBeTrue();
   })
@@ -432,26 +433,20 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   })
 
-  it("Verify the product name and quantity on the checkout page",async()=>{
-    shippingDetails=await checkoutPage.verifyShippingDetails();
-    expect(shippingDetails[0])
-      .withContext("Product names on shipping page and product page should be same")
+  it("Verify the product name, quantity and price on the checkout page", async()=>{
+    shippingProductDetails = await checkoutPage.verifyShippingDetails();
+    expect(shippingProductDetails[0])
+      .withContext("Product names should be same")
       .toEqual(nameAndPrice[0]);
-    expect(shippingDetails[1])
-      .withContext("Product quantity on shipping page and product page should be same")
+    expect(shippingProductDetails[1])
+      .withContext("Product quantities should be same")
       .toEqual(productQuantity);
+    expect(shippingProductDetails[2])
+      .withContext("Product total price should be same")
+      .toEqual(detailsOfCartPopup[2]);
   })
 
-  // it("Verify the total price,size and color on the checkout page",async()=>{
-  //   expect(shippingDetails[2])
-  //     .withContext("Product total price on shipping page and product page should be same")
-  //     .toEqual(detailsOfCartPopup[2]);
-  //   expect(shippingDetails[3])
-  //     .withContext("Product size on shipping page and product page should be same")
-  //     .toEqual(productSize);
-  //   expect(shippingDetails[4])
-  //     .withContext("Product color on shipping page and product page should be same")
-  //     .toEqual(productColor);
-  // })
+ 
+
 
 });

@@ -8,7 +8,7 @@ export default class Common {
         this.$addToCart=(data)=>$(`(//span[.="Add to Cart"])[${data}]`);
         this.$addToWishList=(data)=>$(`(//span[.="Add to Wish List"]/parent::a)[${data}]`);
         this.$addToCompare=(data)=>$(`(//span[.="Add to Compare"]/parent::a)[${data}]`);
-       
+        this.$spinner=()=>$(`//img[@src="https://magento.softwaretestingboard.com/pub/static/version1695896754/frontend/Magento/luma/en_US/images/loader-2.gif"]`)
     }
     /**
      * To load Url of the page.
