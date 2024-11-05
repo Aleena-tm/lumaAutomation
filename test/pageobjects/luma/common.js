@@ -31,7 +31,8 @@ export default class Common {
      * @param {string} locator 
      */
     async scrollAndClick(locator){
-        await locator.scrollIntoView();
+        await locator.scrollIntoView({block: 'center'});
+        await locator.waitForClickable({timeout: 10000, timeoutMsg: "Button is still not loaded"});
         await locator.click();
     }
 

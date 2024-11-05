@@ -8,16 +8,20 @@ class Checkoutpage extends Common{
         this.$enterShippingDetails=data=>$(`(//input[@class="input-text"])[${data}]`);
         this.$selectStateAndCountry=data=>$(`//select[@name="${data}"]`);
         this.$stateAndCountry=data=>$(`//option[.="${data}"]`);
-        this.$next=()=>$(`//button[@type="submit"]/span[.="Next"]`);
-        this.$reviewAndPayments=()=>$(`//ul[@class="opc-progress-bar"]//span[.="Review & Payments"]`);
+        this.$next=()=>$(`//button[@type="submit"]/span[text()="Next"]`);
+        this.$reviewAndPayments=()=>$(`//div[text()="Payment Method"]`);
         this.$viewCartDetails=()=>$(`//div[@class="block items-in-cart"]`);
         this.$nameOnCheckoutPage=()=>$(`//strong[@class="product-item-name"]`);
         this.$quantityOnCheckout=()=>$(`//div[@class="details-qty"]//span[@class="value"]`);
         this.$totalOnCheckout=()=>$(`//span[@class="cart-price"]/span`);
         this.$viewDetails=()=>$(`//div[@class="product options"]/span`);
         this.$sizeAndColorCheckout=data=>$(`(//dl[@class="item-options"]//dd[@class="values"])[${data}]`);
-        this.$placeOrder=()=>$(`//span[.="Place Order"]`);
+        this.$placeOrder=()=>$(`//span[text()="Place Order"]`);
         this.$thankyouPage=()=>$(`//h1[@class="page-title"]`);
+        this.$orderDetails=()=>$(`//strong[text()="Order Total"]`);
+        this.$shippingMethod=()=>$(`(//input[@class="radio"])[1]`);
+        this.$shoppingContinue=()=>$(`//a//span[text()="Continue Shopping"]`);
+        
     }
 
     /**
@@ -38,14 +42,23 @@ class Checkoutpage extends Common{
         await this.clickElemenets(this.$selectStateAndCountry(userData.states[1]));
         await this.clickElemenets(this.$stateAndCountry(userData.stateAndCountry[1]));
         await this.$enterShippingDetails(userData.indexNumbers[7]).setValue(userData.phone);
+        await browser.pause(3000);
+        await this.scrollAndClick(this.$shippingMethod());
+        await browser.pause(3000);
+        await this.$next().waitForDisplayed({timeout: 10000, timeoutMsg: "Button is still not loaded"});
+        await browser.pause(3000);
         await this.scrollAndClick(this.$next());
+        await browser.pause(3000);
+        await this.$spinner().waitForDisplayed({reverse:true});
         await this.$reviewAndPayments().waitForDisplayed({timeout:5000,timeoutMsg:"Review and payments should be visible"});
 
         }
+        else{
         await this.$next().waitForDisplayed({timeout: 10000, timeoutMsg: "Element is not displayed after 10 seconds."})
-        await this.$next().click();
-        await this.$spinner().waitForDisplayed({reverse:true})
+        await this.scrollAndClick(this.$next());
+        await this.$spinner().waitForDisplayed({reverse:true});
         await this.$reviewAndPayments().waitForDisplayed({timeout:5000,timeoutMsg:"Review and payments should be visible"});
+        }
     }
 
      /**
@@ -62,10 +75,20 @@ class Checkoutpage extends Common{
         shippingDetails.push(parseInt(await this.$quantityOnCheckout().getText()));
         shippingDetails.push(await this.$totalOnCheckout().getText());
         
-        // await this.$placeOrder().waitForDisplayed({ timeout: 10000, timeoutMsg: "Place order should be displayed" });
-        // await this.scrollAndClick(this.$placeOrder());
-        // await this.$thankyouPage().waitForDisplayed({ timeout: 5000, timeoutMsg: "Thank you page should be displayed" });
         return shippingDetails;
+    }
+
+    /**
+     * To click on place order 
+     */
+    async placeOrder(){
+        // await this.$orderDetails().scrollIntoView({block: 'center'});
+        await this.scrollAndClick(this.$placeOrder());
+        await this.$thankyouPage().waitForDisplayed({ timeout: 5000, timeoutMsg: "Thank you page should be displayed" });
+    }
+
+    async continueShopping(){
+        await this.scrollAndClick(this.$shoppingContinue());
     }
     
     

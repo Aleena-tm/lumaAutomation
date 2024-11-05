@@ -23,6 +23,11 @@ class Productspage extends Common{
         this.$viewModes=data=>$(`(//a[contains(@class,"${data}")])[1]`);
         this.$validateViewModes=data=>$(`(//strong[contains(@class,"${data}")])[1]`);
         this.$productPrice=data=>$(`(//span[@class="price"])[${data}]`);
+        this.$wishlistHeader=()=>$(`//span[text()="My Wish List"]`);
+        this.$wishListProductName=data=>$(`(//strong[@class="product-item-name"]/a)[${data}]`);
+        this.$wishListProductPrice=data=>$(`(//span[@class="price-wrapper "]/span)[${data}]`);
+        this.$removeItemWishlist=()=>$(`(//a[@title="Remove This Item"])[last()]`);
+        this.$emptyMsg=()=>$(`//div[@data-ui-id="message-success"]`);
     }
 
     /**
@@ -207,9 +212,10 @@ class Productspage extends Common{
     * @returns boolean
     */
    async sortByNames(){
-      await this.scrollAndClick(this.$sortBy());
+      await this.$sortBy().click();
       await this.$sortByOptions(userData.sortingOptions[0]).waitForDisplayed({timeout:5000,timeoutMsg:"Product name option is not present"});
-      await this.scrollAndClick(this.$sortByOptions(userData.sortingOptions[0]));
+      await this.$sortByOptions(userData.sortingOptions[0]).scrollIntoView();
+      await this.$sortByOptions(userData.sortingOptions[0]).click();
       let productNames = [];
       let productLength = await this.$$productsSortedByNames().length;
      
@@ -233,9 +239,10 @@ class Productspage extends Common{
       * @returns boolean
       */
      async sortByPrice(){
-      await this.scrollAndClick(this.$sortBy());
+      await this.$sortBy().click();
       await this.$sortByOptions(userData.sortingOptions[1]).waitForDisplayed({timeout:5000,timeoutMsg:"Product name option is not present"});
-      await this.scrollAndClick(this.$sortByOptions(userData.sortingOptions[1]));
+      await this.$sortByOptions(userData.sortingOptions[1]).scrollIntoView();
+      await this.$sortByOptions(userData.sortingOptions[1]).click();
       let productPrices = [];
       let productLength = await this.$$productsSortedByPrice().length;
       for (let i = 0; i < productLength; i++) { 
@@ -255,9 +262,10 @@ class Productspage extends Common{
      }
 
      async sortByPosition(){
-      await this.scrollAndClick(this.$sortBy());
+      await this.$sortBy().click();
       await this.$sortByOptions(userData.sortingOptions[2]).waitForDisplayed({timeout:5000,timeoutMsg:"Product name option is not present"});
-      await this.scrollAndClick(this.$sortByOptions(userData.sortingOptions[2]));
+      await this.$sortByOptions(userData.sortingOptions[2]).scrollIntoView();
+      await this.$sortByOptions(userData.sortingOptions[2]).click();
       let productNames = [];
       let productLength = await this.$$sortByPosition().length;
       for (let i = 0; i < productLength; i++) { 
@@ -292,13 +300,61 @@ class Productspage extends Common{
       * @returns string
       */
      async validateProductPageDetails() {
-      await this.hover(this.$productName(1));
-      const [name, price] = await Promise.all([
+      await this.hover(this.$productName(userData.indexNumbers[0]));
+      let [name, price] = await Promise.all([
           this.$productName(1).getText(),
           this.$productPrice(1).getText()
       ]);
       return [name, price];
-       }
+      }
+
+      /**
+       * To add a product to the wishlist
+       */
+      async addToWishList(){
+       await this.clickElemenets(this.$addToWishList(userData.indexNumbers[0]));
+       await this.$wishlistHeader().waitForDisplayed({timeout:5000,timeoutMsg:"Wishlist page should be loaded"});
+      }
+
+      /**
+       * To validate product name and price on the wishlist page
+       * @returns string
+       */
+      async wishListValidationOfProductOne(){
+         let [name, price] = await Promise.all([
+            this.$wishListProductName(userData.indexNumbers[0]).getText(),
+            this.$wishListProductPrice(userData.indexNumbers[0]).getText()
+        ]);
+        return [name, price];
+      }
+
+       /**
+       * To validate product name and price on the wishlist page
+       * @returns string
+       */
+       async wishListValidationOfProductTwo(){
+         let [name, price] = await Promise.all([
+            this.$wishListProductName(userData.indexNumbers[1]).getText(),
+            this.$wishListProductPrice(userData.indexNumbers[1]).getText()
+        ]);
+        return [name, price];
+      }
+      
+      /**
+       * To remove an item from the wishlist
+       */
+      async removeWishlist(){
+         await this.scrollAndClick(this.$removeItemWishlist());
+         await this.$emptyMsg().waitForDisplayed({timeout: 5000, timeOutMsg: "Item should be removed"});
+      }
+
+      /**
+       * To add products to the cart
+       */
+      async addProductToCart(){
+         await this.hover(this.$productName(userData.indexNumbers[1]));
+         await this.scrollAndClick(this.$addToCart(userData.indexNumbers[1]));
+      }
   
    }
 export default new Productspage();
