@@ -1,1 +1,1 @@
-{"total":1,"items":[{"uid":"08c68233982b6959f05d2d488123d3b3","name":"End to end workflow for Luma","statistic":{"failed":0,"broken":0,"skipped":0,"passed":50,"unknown":0,"total":50}}]}
+{"total":1,"items":[{"uid":"08c68233982b6959f05d2d488123d3b3","name":"End to end workflow for Luma","statistic":{"failed":1,"broken":0,"skipped":0,"passed":50,"unknown":0,"total":51}}]}
