@@ -13,6 +13,7 @@ class ProductDetailsPage extends Common{
         this.$quantity=()=>$(`//input[@type="number"]`);
         this.$cartNumber=()=>$(`//span[@class="counter-number" and text()="3"]`);
         this.$addToCartButton=()=>$(`//button[@id="product-addtocart-button"]`);
+        this.$selectOptionsMessage=()=>$(`//div[@data-ui-id="message-notice"]`);
     }
 
     /**

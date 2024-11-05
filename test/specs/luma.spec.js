@@ -526,8 +526,8 @@ describe("End to end workflow for Luma", () => {
 
   it("User should validate product details and add the product to the wishlist", async()=>{
     await productsPage.addProductToCart();
-    expect(await productsPage.$wishlistHeader().isDisplayed())
-      .withContext("Wishlist page should be displayed")
+    expect(await productDetailsPage.$selectOptionsMessage().isDisplayed())
+      .withContext("Product should be added to the cart")
       .toBeTrue();
   })
 

@@ -50,7 +50,7 @@
 
     "address": "test",
     "city":"newspaper",
-    "zip":"123456",
+    "zip":"65434",
     "phone":"9876543210",
     "states":["region_id","country_id"],
     "stateAndCountry":["Hawaii","Finland"]
