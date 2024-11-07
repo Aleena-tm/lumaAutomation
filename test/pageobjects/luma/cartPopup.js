@@ -9,6 +9,8 @@ class Cartpopup extends Common{
         this.$productPriceInCartPopup=()=>$(`//span[@class="minicart-price"]`);
         this.$subtotal=()=>$(`//div[@class="subtotal"]//span[@class="price"]`);
         this.$viewCart=()=>$(`//span[.="View and Edit Cart"]`);
+        this.$cartProducts=data=>$(`(//strong[@class="product-item-name"])[${data}]`);
+        this.$popupMessage=()=>$(`(//div[@id="google-anno-sa"]//*[name()='svg'])[last()]`);
     }
 
     /**
@@ -30,7 +32,12 @@ class Cartpopup extends Common{
      * To move to cart page.
      */
     async moveToCartPage(){
-        await this.scrollAndClick(this.$viewCart());
+        if(await this.$popupMessage().isDisplayed()){
+            await this.clickElemenets(this.$popupMessage());
+            await this.scrollAndClick(this.$viewCart());
+        }else{
+            await this.scrollAndClick(this.$viewCart());
+        }
     }
 }
  export default new Cartpopup();

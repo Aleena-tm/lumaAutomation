@@ -38,6 +38,17 @@ class Homepage extends Common{
         
     }
 
+     /**
+     * To search for a jacket for men
+     */
+     async searchMenAnotherProduct(){
+        await this.$category(userData.categoryMen).scrollIntoView();
+        await this.hover(this.$category(userData.categoryMen));
+        await this.hover(this.$subCategory(userData.topMen));
+        await this.clickElemenets(this.$product(userData.jacketMen));
+        
+    }
+
 }
 
 export default new Homepage;

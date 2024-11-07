@@ -524,11 +524,79 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   })
 
-  it("User should validate product details and add the product to the wishlist", async()=>{
+  it("User should add a product to the cart", async()=>{
     await productsPage.addProductToCart();
-    expect(await productDetailsPage.$selectOptionsMessage().isDisplayed())
+    expect(await productDetailsPage.$addedToCartValidation().isDisplayed())
       .withContext("Product should be added to the cart")
       .toBeTrue();
+  })
+
+  it("User should select size and color of product to add to the cart", async()=>{
+    await productDetailsPage.addWomenProductToCart();
+    expect(await productDetailsPage.$cartPopup().isDisplayed())
+    .withContext("Product should be added to the cart")
+    .toBeTrue();
+  })
+
+  it("User should return back tohome page", async()=>{
+    await productDetailsPage.moveToHomePage();
+    expect(await homePage.$lumaIcon().isDisplayed())
+     .withContext("Product should be added to the cart")
+     .toBeTrue();
+  })
+
+  it("User should search for a product of different category", async()=>{
+      await homePage.searchMenAnotherProduct();
+      expect(await homePage.$productsPageHeader().isDisplayed())
+        .withContext("Product page should be displayed")
+        .toBeTrue();
+  })
+
+  it("User should add another category product to the cart", async()=>{
+    await productsPage.addMenProductToCart();
+    expect(await productDetailsPage.$addedToCartValidation().isDisplayed())
+      .withContext("Product should be added to the cart")
+      .toBeTrue();
+  })
+
+  it("User should add multiple number of products to the cart", async()=>{
+    await productDetailsPage.addProductsForMenToCart();
+    expect(await productDetailsPage.$cartPopup().isDisplayed())
+      .withContext("Multiple products should be added to the cart")
+      .toBeTrue();
+  })
+
+  it("User should select cart popup", async()=>{
+    await productDetailsPage.selectCartPopup();
+    expect(await cartPopupPage.$cartProducts(userData.indexNumbers[0]).isDisplayed())
+      .withContext("Product should be added to the cart")
+      .toBeTrue();
+    expect(await cartPopupPage.$cartProducts(userData.indexNumbers[1]).isDisplayed())
+      .withContext("Product should be added to the cart")
+      .toBeTrue();
+  })
+
+  it("User should delete products from cart", async()=>{
+    await productDetailsPage.deleteCart();
+    expect(await cartPopupPage.$deletedMsg().isDisplayed())
+      .withContext("Product should be added to the cart")
+      .toBeTrue();
+  })
+
+  it("User should navigate to a product category for purchasing", async ()=>{
+    await homePage.searchWomenProduct();
+    expect(await homePage.$productsPageHeader().isDisplayed())
+      .withContext("Product page should be displayed")
+      .toBeTrue();
+  })
+
+  it("User should add a product to the cart for purchasing", async()=>{
+    for (let i = 0; i < 2; i++) {
+    await productsPage.addNewProductToCart();
+    expect(await productsPage.$cartProductNumber().isDisplayed())
+      .withContext("Product should be added to the cart")
+      .toBeTrue();
+    }
   })
 
  

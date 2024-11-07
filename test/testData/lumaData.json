@@ -24,6 +24,8 @@
     "categoryMen": "Men",
     "bottom":"level1 nav-3-2",
     "pant":"nav-3-2-1",
+    "topMen":"level1 nav-3-1",
+    "jacketMen":"nav-3-1-1",
 
     "categoryGear": "Gear",
     "bag":"level1 nav-4-1",
@@ -45,7 +47,7 @@
     "viewModes":["mode-list","mode-grid"],
 
     "sizes": ["XS","S","M","L","XL"],
-    "colors":["Black", "Blue", "Purple"],
+    "colors":["Black", "Blue", "Purple","Gray"],
     "quantities":[2,3,4,5],
 
     "address": "test",

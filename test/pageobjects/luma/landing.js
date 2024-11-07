@@ -69,7 +69,7 @@ class Landingpage extends Common {
    */
   async createAccount(firstname, lastname, password, confirmPassword) {
     let emailPrefix = Math.floor(Math.random() * 1000);
-    this.userEmail = `okn${emailPrefix}@gmail.com`;
+    this.userEmail = `gtyui${emailPrefix}@gmail.com`;
 
     await this.$enterDetails(userData.firstName).setValue(firstname);
     await this.$enterDetails(userData.lastName).setValue(lastname);

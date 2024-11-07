@@ -8,7 +8,10 @@ export default class Common {
         this.$addToCart=(data)=>$(`(//span[.="Add to Cart"])[${data}]`);
         this.$addToWishList=(data)=>$(`(//span[.="Add to Wish List"]/parent::a)[${data}]`);
         this.$addToCompare=(data)=>$(`(//span[.="Add to Compare"]/parent::a)[${data}]`);
-        this.$spinner=()=>$(`//img[@src="https://magento.softwaretestingboard.com/pub/static/version1695896754/frontend/Magento/luma/en_US/images/loader-2.gif"]`)
+        this.$spinner=()=>$(`//img[@src="https://magento.softwaretestingboard.com/pub/static/version1695896754/frontend/Magento/luma/en_US/images/loader-2.gif"]`);
+        this.$addedToCartValidation=()=>$(`//h1[@class="page-title"]`);
+        this.$cartPopup=()=>$(`//div[@data-block="minicart"]`);
+        this.$deletedMsg=()=>$(`//strong[@class="subtitle empty"]`);
     }
     /**
      * To load Url of the page.
@@ -32,7 +35,7 @@ export default class Common {
      */
     async scrollAndClick(locator){
         await locator.scrollIntoView({block: 'center'});
-        await locator.waitForClickable({timeout: 10000, timeoutMsg: "Button is still not loaded"});
+        // await locator.waitForClickable({timeout: 10000, timeoutMsg: "Button is still not loaded"});
         await locator.click();
     }
 

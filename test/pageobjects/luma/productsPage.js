@@ -28,6 +28,9 @@ class Productspage extends Common{
         this.$wishListProductPrice=data=>$(`(//span[@class="price-wrapper "]/span)[${data}]`);
         this.$removeItemWishlist=()=>$(`(//a[@title="Remove This Item"])[last()]`);
         this.$emptyMsg=()=>$(`//div[@data-ui-id="message-success"]`);
+        this.$sizeOfProduct=(data,index)=>$(`(//div[.="${data}"])[${index}]`);
+        this.$colorOfProduct=(data,index)=>$(`(//div[@option-label="${data}"])[${index}]`);
+        this.$cartProductNumber=()=>$(`//span[@class="counter-number"]`);
     }
 
     /**
@@ -352,9 +355,37 @@ class Productspage extends Common{
        * To add products to the cart
        */
       async addProductToCart(){
-         await this.hover(this.$productName(userData.indexNumbers[1]));
-         await this.scrollAndClick(this.$addToCart(userData.indexNumbers[1]));
+         await this.hover(this.$productName(userData.indexNumbers[3]));
+         await this.$addToCart(userData.indexNumbers[3]).waitForDisplayed({timeout:5000, timeoutMsg: "Add to cart button should be displayed"});
+         await this.clickElemenets(this.$addToCart(userData.indexNumbers[3]));
+         await this.$addedToCartValidation().waitForDisplayed({timeout:10000, timeOutMsg:"Products should be added to cart"});
+         await browser.pause(3000);
       }
+
+      /**
+       * To add a product to the cart
+       */
+      async addMenProductToCart(){
+         await this.hover(this.$productName(userData.indexNumbers[2]));
+         await this.$addToCart(userData.indexNumbers[2]).waitForDisplayed({timeout:5000, timeoutMsg: "Add to cart button should be displayed"});
+         await this.clickElemenets(this.$addToCart(userData.indexNumbers[2]));
+         await this.$addedToCartValidation().waitForDisplayed({timeout:10000, timeOutMsg:"Products should be added to cart"});
+         await browser.pause(3000);
+      }
+
+      /**
+ * To add a product to the cart from home page.
+ */
+   async addNewProductToCart() { 
+       await this.hover(this.$productName(userData.indexNumbers[6]));
+       await this.scrollAndClick(this.$sizeOfProduct(userData.sizes[2], userData.indexNumbers[6]));
+       await this.scrollAndClick(this.$colorOfProduct(userData.colors[3], userData.indexNumbers[2]));
+       await this.$addToCart(userData.indexNumbers[6]).waitForClickable({timeout:5000, timeOutMsg:"Add to cart button should be displayed"});
+       await this.scrollAndClick(this.$addToCart(userData.indexNumbers[6]));
+       await this.$cartProductNumber().waitForDisplayed({timeout:5000, timeOutMsg:"Cart should be updated"});
+       await this.$cartProductNumber().scrollIntoView();
+   }
+
   
    }
 export default new Productspage();
