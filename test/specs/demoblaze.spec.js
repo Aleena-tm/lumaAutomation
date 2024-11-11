@@ -5,7 +5,7 @@ describe(`Sample workflow of Demoblaze`, () => {
   it(`Load URL of the website`, async () => {
     await landingPage.loadUrl();
     expect(await landingPage.$validateHeader().isDisplayed())
-      .withContext("Expected page is not loaded")
+      .withContext("Expected page should be loaded")
       .toBeTrue();
   });
 

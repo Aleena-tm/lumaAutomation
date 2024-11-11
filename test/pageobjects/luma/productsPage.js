@@ -34,7 +34,7 @@ class Productspage extends Common{
         this.$proceedToCheckout=()=>$(`//button[@title="Proceed to Checkout"]`);
         this.$addToCartProduct=index=>$(`(//button[@class="action tocart primary"])[${index}]`);
         this.$addProductToCart=index=>$(`(//form[@data-role="tocart-form"])[${index}]`);
-        this.$editQuantity=index=>$(`(//input[@class="item-qty cart-item-qty"])[${index}]`);
+        this.$editQuantity=index=>$(`(//div[@class="product-item-pricing"]//input[@class="item-qty cart-item-qty"])[${index}]`);
         this.$updateQuantity=index=>$(`(//span[text()="Update"])[${index}]`);
     }
 
@@ -413,17 +413,19 @@ class Productspage extends Common{
       * To edit the quantity number of products in the cart
       */
       async editQuantityNumber() {
-      let selectedIndexes = userData.indexNumbers.slice(0, 2);
-      for (let index of selectedIndexes) {
-      await this.$editQuantity().waitForDisplayed({timeout:5000, timeoutMsg: "Edit quantity should be present"});
-      await this.scrollAndClick(this.$editQuantity(index));
-      await this.$editQuantity(index).clearValue();
-      await this.$editQuantity(index).setValue(userData.quantities[0]);
-      await this.scrollAndClick(this.$updateQuantity(index));
-      }
-       await browser.pause(5000);
-       await this.scrollAndClick(this.$proceedToCheckout());
-      }
+         let selectedIndexes = userData.indexNumbers.slice(0, 2);
+         for (let index of selectedIndexes) {
+             await this.$editQuantity(index).waitForDisplayed({ timeout: 5000 });
+             await this.scrollAndClick(this.$editQuantity(index));
+             await browser.keys(['Control', 'a']);   
+             await browser.keys('Backspace');     
+             await this.$editQuantity(index).setValue(userData.quantities[0]);
+             await this.scrollAndClick(this.$updateQuantity(index));
+         }
+         await this.scrollAndClick(this.$proceedToCheckout());
+     }
+     
+     
 
       
 

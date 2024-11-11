@@ -4,7 +4,7 @@ import userData from "../../testData/lumaData.json";
 class Homepage extends Common{
     constructor(){
         super();
-        this.$category=(data)=>$(`//span[text()="${data}"]`);
+        this.$category=data=>$(`//span[text()="${data}"]`);
         this.$subCategory=(data)=>$(`//li[contains(@class,"${data}")]`);
         this.$product=(data)=>$(`//li[contains(@class,"${data}")]`);
         this.$productsPageHeader=()=>$(`//span[@data-ui-id="page-title-wrapper"]`);
