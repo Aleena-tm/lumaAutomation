@@ -31,6 +31,11 @@ class Productspage extends Common{
         this.$sizeOfProduct=(data,index)=>$(`(//div[.="${data}"])[${index}]`);
         this.$colorOfProduct=(data,index)=>$(`(//div[@option-label="${data}"])[${index}]`);
         this.$cartProductNumber=()=>$(`//span[@class="counter-number"]`);
+        this.$proceedToCheckout=()=>$(`//button[@title="Proceed to Checkout"]`);
+        this.$addToCartProduct=index=>$(`(//button[@class="action tocart primary"])[${index}]`);
+        this.$addProductToCart=index=>$(`(//form[@data-role="tocart-form"])[${index}]`);
+        this.$editQuantity=index=>$(`(//input[@class="item-qty cart-item-qty"])[${index}]`);
+        this.$updateQuantity=index=>$(`(//span[text()="Update"])[${index}]`);
     }
 
     /**
@@ -374,17 +379,55 @@ class Productspage extends Common{
       }
 
       /**
- * To add a product to the cart from home page.
- */
-   async addNewProductToCart() { 
+      * To add a product to the cart from home page.
+      */
+      async addNewProductToCart() { 
        await this.hover(this.$productName(userData.indexNumbers[6]));
        await this.scrollAndClick(this.$sizeOfProduct(userData.sizes[2], userData.indexNumbers[6]));
        await this.scrollAndClick(this.$colorOfProduct(userData.colors[3], userData.indexNumbers[2]));
-       await this.$addToCart(userData.indexNumbers[6]).waitForClickable({timeout:5000, timeOutMsg:"Add to cart button should be displayed"});
-       await this.scrollAndClick(this.$addToCart(userData.indexNumbers[6]));
-       await this.$cartProductNumber().waitForDisplayed({timeout:5000, timeOutMsg:"Cart should be updated"});
-       await this.$cartProductNumber().scrollIntoView();
-   }
+       await this.scrollAndClick(this.$addToCartProduct(userData.indexNumbers[6]));
+       await this.$cartPopup().waitForDisplayed({timeout:5000, timeOutMsg:"Cart should be updated"});
+      }
+
+      /**
+       * To click on proceed to checkout
+       */
+      async proceedToCheckout(){
+         await this.clickElemenets(this.$cartPopup());
+         await this.$proceedToCheckout().waitForDisplayed({timeout:5000, timeOutMsg:"Button should be displayed"});
+      }
+
+      /**
+      * To add a product to the cart from home page.
+      */
+       async addNewMenProductToCart() { 
+         await this.hover(this.$productName(userData.indexNumbers[3]));
+         await this.scrollAndClick(this.$sizeOfProduct(userData.sizes[2], userData.indexNumbers[3]));
+         await this.scrollAndClick(this.$colorOfProduct(userData.colors[0], userData.indexNumbers[2]));
+         await this.scrollAndClick(this.$addProductToCart(userData.indexNumbers[3]));
+         await this.$cartPopup().waitForDisplayed({timeout:5000, timeOutMsg:"Cart should be updated"});
+         await this.$cartPopup().scrollIntoView();
+        }
+
+      /**
+      * To edit the quantity number of products in the cart
+      */
+      async editQuantityNumber() {
+      let selectedIndexes = userData.indexNumbers.slice(0, 2);
+      for (let index of selectedIndexes) {
+      await this.$editQuantity().waitForDisplayed({timeout:5000, timeoutMsg: "Edit quantity should be present"});
+      await this.scrollAndClick(this.$editQuantity(index));
+      await this.$editQuantity(index).clearValue();
+      await this.$editQuantity(index).setValue(userData.quantities[0]);
+      await this.scrollAndClick(this.$updateQuantity(index));
+      }
+       await browser.pause(5000);
+       await this.scrollAndClick(this.$proceedToCheckout());
+      }
+
+      
+
+
 
   
    }

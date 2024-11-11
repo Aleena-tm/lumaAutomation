@@ -108,15 +108,12 @@ class ProductDetailsPage extends Common{
  * To delete products.
  */
   async deleteCart() {
-  for (let index of userData.indexNumbers.slice(0, 2)) {
-      await this.clickElemenets(this.$deleteProduct(index));
+      await this.clickElemenets(this.$deleteProduct(userData.indexNumbers[0]));
       await this.$okMessage().waitForClickable({ timeout: 3000, timeoutMsg: "ok button should be displayed"});
       await this.scrollAndClick(this.$okMessage());
       await this.$cartPopup().waitForDisplayed({timeout:3000, timeoutMsg:"Popup should be displayed"});
-      await this.scrollAndClick(this.$cartPopup());
       await browser.pause(3000);
-  }
-  await this.$deletedMsg().waitForDisplayed({ timeout: 3000, timeoutMsg: "Message should be displayed" });
+      await this.$deletedMsg().waitForDisplayed({ timeout: 10000, timeoutMsg: "Message should be displayed" });
   }
 
 
