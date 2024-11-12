@@ -36,6 +36,8 @@ class Productspage extends Common{
         this.$addProductToCart=index=>$(`(//form[@data-role="tocart-form"])[${index}]`);
         this.$editQuantity=index=>$(`(//div[@class="product-item-pricing"]//input[@class="item-qty cart-item-qty"])[${index}]`);
         this.$updateQuantity=index=>$(`(//span[text()="Update"])[${index}]`);
+        this.$myWishlistSelect=index=>$(`(//li[@class="link wishlist"]//a)[${index}]`);
+        this.$wishToCart=()=>$(`(//button[@class="action tocart primary"]//span)[last()]`);
     }
 
     /**
@@ -407,6 +409,7 @@ class Productspage extends Common{
          await this.scrollAndClick(this.$addProductToCart(userData.indexNumbers[3]));
          await this.$cartPopup().waitForDisplayed({timeout:5000, timeOutMsg:"Cart should be updated"});
          await this.$cartPopup().scrollIntoView();
+         await this.$profileName(userData.indexNumbers[0]).waitForDisplayed({timeout:5000, timeOutMsg:"Profile name dropdown should be displayed"});
         }
 
       /**
@@ -424,13 +427,17 @@ class Productspage extends Common{
          }
          await this.scrollAndClick(this.$proceedToCheckout());
      }
+
+     /**
+      * To add a product from wishlist to cart
+      */
+     async wishlistProductToCart(){
+      await this.scrollAndClick(this.$profileName(userData.indexNumbers[0]));
+      await this.$myWishlistSelect(userData.indexNumbers[0]).waitForDisplayed({timeout:5000,timeOutMsg:"My wishlist option should be present"});
+      await this.scrollAndClick(this.$myWishlistSelect(userData.indexNumbers[0]));
+      await this.$wishToCart().waitForDisplayed({timeout:5000,timeOutMsg:"Add to cart should be present"});
+      await this.scrollAndClick(this.$wishToCart());
+     }
      
-     
-
-      
-
-
-
-  
    }
 export default new Productspage();

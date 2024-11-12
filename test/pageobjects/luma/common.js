@@ -12,6 +12,13 @@ export default class Common {
         this.$addedToCartValidation=()=>$(`//h1[@class="page-title"]`);
         this.$cartPopup=()=>$(`//div[@data-block="minicart"]`);
         this.$deletedMsg=()=>$(`//strong[@class="subtitle empty"]`);
+        this.$profileName=index=>$(`(//span[@class="customer-name"]//button[@class="action switch"])[${index}]`);
+        this.$myAccount=index=>$(`(//li//a[text()="My Account"])[${index}]`);
+        this.$submit = () => $(`//button[@title="Create an Account"]`);
+        this.$successMessage = () => $(`//div[@data-ui-id="message-success"]`);
+        this.$selectStateAndCountry=data=>$(`//select[@name="${data}"]`);
+        this.$stateAndCountry=data=>$(`//option[.="${data}"]`);
+        this.$cartHeader=()=>$(`//span[.="Shopping Cart"]`);
     }
     /**
      * To load Url of the page.

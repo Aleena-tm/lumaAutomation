@@ -9,6 +9,7 @@ import productDetailsPage from "../pageobjects/luma/productDetails.js";
 import cartPopupPage from "../pageobjects/luma/cartPopup.js";
 import cartPage from "../pageobjects/luma/cartPage.js";
 import checkoutPage from "../pageobjects/luma/checkout.js";
+import myAccountPage from "../pageobjects/luma/myAccountPage.js";
 
 let password, filterOption, isSorted, productNames,errorMessage, passwordStrength, nameOfProduct, priceOfProduct, productName, productPrice, value;
 let cartQuantity, nameMiniCart, priceMiniCart, totalMiniCart;
@@ -122,183 +123,183 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   });
 
-  // it("User should filter products according to style", async () => {
-  //   for (filterOption of userData.filterOptionsListStyle) {
-  //     await productsPage.selectFilterStyle(filterOption);
-  //     expect(await productsPage.$filterHeader().isDisplayed())
-  //       .withContext(`Product page should be displayed for the selected filter`)
-  //       .toBeTrue();
-  //     await productsPage.clearFilter();
-  //     expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //       .withContext(`Selected filter options should be cleared`)
-  //       .toBeTrue();
-  //   }
-  // });
+  it("User should filter products according to style", async () => {
+    for (filterOption of userData.filterOptionsListStyle) {
+      await productsPage.selectFilterStyle(filterOption);
+      expect(await productsPage.$filterHeader().isDisplayed())
+        .withContext(`Product page should be displayed for the selected filter`)
+        .toBeTrue();
+      await productsPage.clearFilter();
+      expect(await productsPage.$clearFilterValidation().isDisplayed())
+        .withContext(`Selected filter options should be cleared`)
+        .toBeTrue();
+    }
+  });
 
-  // it("User should filter products according to size", async () => {
-  //   for (filterOption of userData.filterOptionsSize) {
-  //     await productsPage.selectFilterSize(filterOption);
-  //     expect(await productsPage.$filterHeader().isDisplayed())
-  //       .withContext("Product page should be displayed for the selected filter")
-  //       .toBeTrue();
-  //     await productsPage.clearFilter();
-  //     expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //       .withContext(`Selected filter options should be cleared`)
-  //       .toBeTrue();
-  //   }
-  // });
+  it("User should filter products according to size", async () => {
+    for (filterOption of userData.filterOptionsSize) {
+      await productsPage.selectFilterSize(filterOption);
+      expect(await productsPage.$filterHeader().isDisplayed())
+        .withContext("Product page should be displayed for the selected filter")
+        .toBeTrue();
+      await productsPage.clearFilter();
+      expect(await productsPage.$clearFilterValidation().isDisplayed())
+        .withContext(`Selected filter options should be cleared`)
+        .toBeTrue();
+    }
+  });
 
-  // it("User should filter products according to climate", async () => {
-  //   for (filterOption of userData.filterOptionsClimate) {
-  //     await productsPage.selectFilterClimate(filterOption);
-  //     expect(await productsPage.$filterHeader().isDisplayed())
-  //       .withContext("Product page should be displayed for the selected filter")
-  //       .toBeTrue();
-  //     await productsPage.clearFilter();
-  //     expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //       .withContext(`Selected filter options should be cleared`)
-  //       .toBeTrue();
-  //   }
-  // });
+  it("User should filter products according to climate", async () => {
+    for (filterOption of userData.filterOptionsClimate) {
+      await productsPage.selectFilterClimate(filterOption);
+      expect(await productsPage.$filterHeader().isDisplayed())
+        .withContext("Product page should be displayed for the selected filter")
+        .toBeTrue();
+      await productsPage.clearFilter();
+      expect(await productsPage.$clearFilterValidation().isDisplayed())
+        .withContext(`Selected filter options should be cleared`)
+        .toBeTrue();
+    }
+  });
 
-  // it("User should filter products according to color", async () => {
-  //   for (filterOption of userData.filterOptionsColor) {
-  //     await productsPage.selectFilterColor(filterOption);
-  //     expect(await productsPage.$filterHeader().isDisplayed())
-  //       .withContext("Product page should be displayed for the selected filter")
-  //       .toBeTrue();
-  //     await productsPage.clearFilter();
-  //     expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //       .withContext(`Selected filter options should be cleared`)
-  //       .toBeTrue();
-  //   }
-  // });
+  it("User should filter products according to color", async () => {
+    for (filterOption of userData.filterOptionsColor) {
+      await productsPage.selectFilterColor(filterOption);
+      expect(await productsPage.$filterHeader().isDisplayed())
+        .withContext("Product page should be displayed for the selected filter")
+        .toBeTrue();
+      await productsPage.clearFilter();
+      expect(await productsPage.$clearFilterValidation().isDisplayed())
+        .withContext(`Selected filter options should be cleared`)
+        .toBeTrue();
+    }
+  });
 
-  // it("User should filter products according to eco collection", async () => {
-  //   await productsPage.selectFilterEcoCollection();
-  //   expect(await productsPage.$filterHeader().isDisplayed())
-  //     .withContext("Product page should be displayed for the selected filter")
-  //     .toBeTrue();
-  //   await productsPage.clearFilter();
-  //   expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //     .withContext(`Selected filter options should be cleared`)
-  //     .toBeTrue();
-  // });
+  it("User should filter products according to eco collection", async () => {
+    await productsPage.selectFilterEcoCollection();
+    expect(await productsPage.$filterHeader().isDisplayed())
+      .withContext("Product page should be displayed for the selected filter")
+      .toBeTrue();
+    await productsPage.clearFilter();
+    expect(await productsPage.$clearFilterValidation().isDisplayed())
+      .withContext(`Selected filter options should be cleared`)
+      .toBeTrue();
+  });
 
-  // it("User should filter products according to erin recommends", async () => {
-  //   await productsPage.selectFilterErinRecommends();
-  //   expect(await productsPage.$filterHeader().isDisplayed())
-  //     .withContext("Product page should be displayed for the selected filter")
-  //     .toBeTrue();
-  //   await productsPage.clearFilter();
-  //   expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //     .withContext(`Selected filter options should be cleared`)
-  //     .toBeTrue();
-  // });
+  it("User should filter products according to erin recommends", async () => {
+    await productsPage.selectFilterErinRecommends();
+    expect(await productsPage.$filterHeader().isDisplayed())
+      .withContext("Product page should be displayed for the selected filter")
+      .toBeTrue();
+    await productsPage.clearFilter();
+    expect(await productsPage.$clearFilterValidation().isDisplayed())
+      .withContext(`Selected filter options should be cleared`)
+      .toBeTrue();
+  });
 
-  // it("User should filter products according to material", async () => {
-  //   for (filterOption of userData.filterOptionsMaterial) {
-  //     await productsPage.selectFilterMaterial(filterOption);
-  //     expect(await productsPage.$filterHeader().isDisplayed())
-  //       .withContext("Product page should be displayed for the selected filter")
-  //       .toBeTrue();
-  //     await productsPage.clearFilter();
-  //     expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //       .withContext(`Selected filter options should be cleared`)
-  //       .toBeTrue();
-  //   }
-  // });
+  it("User should filter products according to material", async () => {
+    for (filterOption of userData.filterOptionsMaterial) {
+      await productsPage.selectFilterMaterial(filterOption);
+      expect(await productsPage.$filterHeader().isDisplayed())
+        .withContext("Product page should be displayed for the selected filter")
+        .toBeTrue();
+      await productsPage.clearFilter();
+      expect(await productsPage.$clearFilterValidation().isDisplayed())
+        .withContext(`Selected filter options should be cleared`)
+        .toBeTrue();
+    }
+  });
 
-  // it("User should filter products according to new", async () => {
-  //   await productsPage.selectFilterNew();
-  //   expect(await productsPage.$filterHeader().isDisplayed())
-  //     .withContext("Product page should be displayed for the selected filter")
-  //     .toBeTrue();
-  //   await productsPage.clearFilter();
-  //   expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //     .withContext(`Selected filter options should be cleared`)
-  //     .toBeTrue();
-  // });
+  it("User should filter products according to new", async () => {
+    await productsPage.selectFilterNew();
+    expect(await productsPage.$filterHeader().isDisplayed())
+      .withContext("Product page should be displayed for the selected filter")
+      .toBeTrue();
+    await productsPage.clearFilter();
+    expect(await productsPage.$clearFilterValidation().isDisplayed())
+      .withContext(`Selected filter options should be cleared`)
+      .toBeTrue();
+  });
 
-  // it("User should filter products according to pattern", async () => {
-  //   for (filterOption of userData.filterOptionsPattern) {
-  //     await productsPage.selectFilterPattern(filterOption);
-  //     expect(await productsPage.$filterHeader().isDisplayed())
-  //       .withContext("Product page should be displayed for the selected filter")
-  //       .toBeTrue();
-  //     await productsPage.clearFilter();
-  //     expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //       .withContext(`Selected filter options should be cleared`)
-  //       .toBeTrue();
-  //   }
-  // });
+  it("User should filter products according to pattern", async () => {
+    for (filterOption of userData.filterOptionsPattern) {
+      await productsPage.selectFilterPattern(filterOption);
+      expect(await productsPage.$filterHeader().isDisplayed())
+        .withContext("Product page should be displayed for the selected filter")
+        .toBeTrue();
+      await productsPage.clearFilter();
+      expect(await productsPage.$clearFilterValidation().isDisplayed())
+        .withContext(`Selected filter options should be cleared`)
+        .toBeTrue();
+    }
+  });
 
-  // it("User should filter products according to performance fabric", async () => {
-  //   await productsPage.selectFilterPerformanceFabric();
-  //   expect(await productsPage.$filterHeader().isDisplayed())
-  //     .withContext("Product page should be displayed for the selected filter")
-  //     .toBeTrue();
-  //   await productsPage.clearFilter();
-  //   expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //     .withContext(`Selected filter options should be cleared`)
-  //     .toBeTrue();
-  // });
+  it("User should filter products according to performance fabric", async () => {
+    await productsPage.selectFilterPerformanceFabric();
+    expect(await productsPage.$filterHeader().isDisplayed())
+      .withContext("Product page should be displayed for the selected filter")
+      .toBeTrue();
+    await productsPage.clearFilter();
+    expect(await productsPage.$clearFilterValidation().isDisplayed())
+      .withContext(`Selected filter options should be cleared`)
+      .toBeTrue();
+  });
 
-  // it("User should filter products according to price", async () => {
-  //   await productsPage.selectFilterPrice();
-  //   expect(await productsPage.$filterHeader().isDisplayed())
-  //     .withContext("Product page should be displayed for the selected filter")
-  //     .toBeTrue();
-  //   await productsPage.clearFilter();
-  //   expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //     .withContext(`Selected filter options should be cleared`)
-  //     .toBeTrue();
-  // });
+  it("User should filter products according to price", async () => {
+    await productsPage.selectFilterPrice();
+    expect(await productsPage.$filterHeader().isDisplayed())
+      .withContext("Product page should be displayed for the selected filter")
+      .toBeTrue();
+    await productsPage.clearFilter();
+    expect(await productsPage.$clearFilterValidation().isDisplayed())
+      .withContext(`Selected filter options should be cleared`)
+      .toBeTrue();
+  });
 
-  // it("User should filter products according to sale", async () => {
-  //   await productsPage.selectFilterSale();
-  //   expect(await productsPage.$filterHeader().isDisplayed())
-  //     .withContext("Product page should be displayed for the selected filter")
-  //     .toBeTrue();
-  //   await productsPage.clearFilter();
-  //   expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //     .withContext(`Selected filter options should be cleared`)
-  //     .toBeTrue();
-  // });
+  it("User should filter products according to sale", async () => {
+    await productsPage.selectFilterSale();
+    expect(await productsPage.$filterHeader().isDisplayed())
+      .withContext("Product page should be displayed for the selected filter")
+      .toBeTrue();
+    await productsPage.clearFilter();
+    expect(await productsPage.$clearFilterValidation().isDisplayed())
+      .withContext(`Selected filter options should be cleared`)
+      .toBeTrue();
+  });
 
-  // it("User should filter products according to all the filter options", async () => {
-  //   await productsPage.selectAllFilters();
-  //   expect(await productsPage.$filtersChoosed().isDisplayed())
-  //     .withContext(
-  //       "Product page should be displayed for all the selected filter"
-  //     )
-  //     .toBeTrue();
-  //   await productsPage.clearFilter();
-  //   expect(await productsPage.$clearFilterValidation().isDisplayed())
-  //     .withContext(`Selected filter options should be cleared`)
-  //     .toBeTrue();
-  // });
+  it("User should filter products according to all the filter options", async () => {
+    await productsPage.selectAllFilters();
+    expect(await productsPage.$filtersChoosed().isDisplayed())
+      .withContext(
+        "Product page should be displayed for all the selected filter"
+      )
+      .toBeTrue();
+    await productsPage.clearFilter();
+    expect(await productsPage.$clearFilterValidation().isDisplayed())
+      .withContext(`Selected filter options should be cleared`)
+      .toBeTrue();
+  });
 
-  // it("Verify the user can sort the products according to product name", async () => {
-  //   isSorted = await productsPage.sortByNames();
-  //   expect(isSorted)
-  //     .withContext("Product names should be sorted in ascending order")
-  //     .toBeTrue();
-  // });
+  it("Verify the user can sort the products according to product name", async () => {
+    isSorted = await productsPage.sortByNames();
+    expect(isSorted)
+      .withContext("Product names should be sorted in ascending order")
+      .toBeTrue();
+  });
 
-  // it("Verify the user can sort the products according to price", async () => {
-  //   isSorted = await productsPage.sortByPrice();
-  //   expect(isSorted)
-  //     .withContext("Products should be sorted according to price")
-  //     .toBeTrue();
-  // });
+  it("Verify the user can sort the products according to price", async () => {
+    isSorted = await productsPage.sortByPrice();
+    expect(isSorted)
+      .withContext("Products should be sorted according to price")
+      .toBeTrue();
+  });
 
-  // it("Verify the user can sort the products according to position", async () => {
-  //   productNames = await productsPage.sortByPosition();
-  //   expect(productNames)
-  //     .withContext("Products should be sorted according to position")
-  //     .toEqual(userData.nameOfProducts);
-  // });
+  it("Verify the user can sort the products according to position", async () => {
+    productNames = await productsPage.sortByPosition();
+    expect(productNames)
+      .withContext("Products should be sorted according to position")
+      .toEqual(userData.nameOfProducts);
+  });
 
   it("Verify the functionality of the view mode: List view", async () => {
     value = await productsPage.setListView();
@@ -622,6 +623,13 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   })
 
+  it("User should add the wishlisted product to the cart", async()=>{
+    await productsPage.wishlistProductToCart();
+    expect(await productsPage.$cartPopup().isDisplayed())
+      .withContext("Product should be added to the cart")
+      .toBeTrue();
+  })
+
   it("User should navigate to another product category for purchasing", async ()=>{
     await homePage.searchWomenProduct();
     expect(await homePage.$productsPageHeader().isDisplayed())
@@ -648,8 +656,99 @@ describe("End to end workflow for Luma", () => {
     expect(await checkoutPage.$shippingHeader().isDisplayed())
       .withContext("User is navigated to the Checkout page")
       .toBeTrue();
+  })
+
+  it("User should navigate to payment page for purchasing of products", async()=>{
+    await checkoutPage.moveToPaymentPage();
+    expect(await checkoutPage.$reviewAndPayments().isDisplayed())
+      .withContext("User is navigated to the Payment page")
+      .toBeTrue();
+  })
+
+  it("User should place order to purchase the products", async()=>{
+    await checkoutPage.placeOrder();
+    expect(await checkoutPage.$thankyouPage().isDisplayed())
+      .withContext("User is navigated to the Thankyou page")
+      .toBeTrue();
+  })
+ 
+  it("User should return back to home page after completing purchase of the products", async()=>{
+    await checkoutPage.continueShopping();
+    expect(await homePage.$lumaIcon().isDisplayed())
+      .withContext("User should be navigated to the home page")
+      .toBeTrue();
+  })
+
+  it("User should navigate to My Account page", async()=>{
+    await homePage.selectMyAccount();
+    expect(await myAccountPage.$myAccountHeader().isDisplayed())
+      .withContext("User should be navigated to the home page")
+      .toBeTrue();
+  })
+
+  it("User should edit contact information", async()=>{
+    await myAccountPage.editContact();
+    expect(await myAccountPage.$customerLogin().isDisplayed())
+      .withContext("User should be navigated to the login page")
+      .toBeTrue();
+  })
+
+  it("User should create new account from the my account page", async()=>{
+    await myAccountPage.createNewAccount(userData._first_name,
+      userData._last_name,
+      userData._password_,
+      userData._confirm_password);
+    expect(await myAccountPage.$successMessage().isDisplayed())
+      .withContext("New account should be created")
+      .toBeTrue();
+  })
+
+  it("User should edit address from the my account page", async()=>{
+    await myAccountPage.changeAddress();
+    expect(await myAccountPage.$successMessage().isDisplayed())
+      .withContext("New Address should be saved")
+      .toBeTrue()
+  })
+
+  it("User should sign out to previous account", async () => {
+    await landingPage.userSignout();
+    expect(await landingPage.$signoutMessage().isDisplayed())
+      .withContext("User is not signed out")
+      .toBeTrue();
+  });
+
+  it("User should sign in using the previous credentials", async () => {
+    await landingPage.userSignin(userData.password_);
+    expect(await landingPage.$siginMessage().isDisplayed())
+      .withContext("User is not signed in")
+      .toBeTrue();
+  });
+
+  it("User should navigate to my orders", async ()=>{
+    await myAccountPage.clickMyOrder();
+    expect(await myAccountPage.$myOrderHeader().isDisplayed())
+      .withContext("New Address should be saved")
+      .toBeTrue()
+  })
+
+  it("User should view the previous orders", async()=>{
+    await myAccountPage.viewOrder();
+    expect(await myAccountPage.$orderedProduct().isDisplayed())
+      .withContext("Product name should be displayed")
+      .toBeTrue()
 
   })
+
+  it("User should reorder the previously ordered product", async()=>{
+    await myAccountPage.reorderProduct();
+    expect(await cartPage.$cartHeader().isDisplayed())
+      .withContext("User is navigated to the cart page")
+      .toBeTrue()
+
+  })
+
+
+  
 
  
   

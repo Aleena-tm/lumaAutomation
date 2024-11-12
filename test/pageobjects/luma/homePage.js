@@ -49,6 +49,15 @@ class Homepage extends Common{
         
     }
 
+    /**
+     * To select My Account option from the dropdown
+     */
+    async selectMyAccount(){
+        await this.scrollAndClick(this.$profileName(userData.indexNumbers[0]));
+        await this.$myAccount(userData.indexNumbers[0]).waitForDisplayed({timeout:5000, timeoutMsg:"My account option should be displayed"});
+        await this.scrollAndClick(this.$myAccount(userData.indexNumbers[0]));
+    }
+
 }
 
 export default new Homepage;

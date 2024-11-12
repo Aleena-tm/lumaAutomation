@@ -2,6 +2,11 @@ import allure from 'allure-commandline';
 import fs from 'fs';
 import helpers from './test/helpers/overWriteArtifacts.js'; 
 
+import JSONReporter from './custom_report/jsonReporter.js';
+import JSONToExcelConverter from "./custom_report/jsonConvertor.js";
+const converter = new JSONToExcelConverter(
+  "./test/.artifacts/test-report.xlsx"
+);
 export const config = {
     //
     // ====================
@@ -27,6 +32,7 @@ export const config = {
     specs: [
         // './test/specs/**/*.js'
         './test/specs/luma.spec.js'
+    //    `./test/specs/flipkart.spec.js`
     ],
     // Patterns to exclude.
     exclude: [
@@ -106,7 +112,7 @@ export const config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    // services: [],
+    services: ['devtools'],
     //
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -133,7 +139,13 @@ export const config = {
         outputDir: 'test/.artifacts/allure-results',
         disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: false,
-    }]],
+    }],
+    [
+        JSONReporter,
+        { outputFile: "test/.artifacts/json-reports/test-results.json" },
+      ],
+    ],
+
 
     // Options to be passed to Jasmine.
     jasmineOpts: {
@@ -159,10 +171,10 @@ export const config = {
     onComplete: function() {
         const reportError = new Error('Could not generate Allure report')
         const generation = allure(['generate', 'test/.artifacts/allure-results',,'--report-dir', 'test/.artifacts/allure-report'])
-        return new Promise((resolve, reject) => {
-            const generationTimeout = setTimeout(
-                () => reject(reportError),
-                5000)
+        converter.convertJSONFolderToExcel("test/.artifacts/json-reports");
+       
+        const allurePromise = new Promise((resolve, reject) => {
+            const generationTimeout = setTimeout(() => reject(reportError), 5000);
 
             generation.on('exit', function(exitCode) {
                 clearTimeout(generationTimeout)

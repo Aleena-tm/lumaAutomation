@@ -10,8 +10,6 @@ class Landingpage extends Common {
     this.$errorMessageForPassword=()=> $(`//div[@id="password-error"]`);
     this.$passwordStrength=()=>$(`//span[@id="password-strength-meter-label"]`);
     this.$enterValidEmail = () => $(`//div[@for="email_address"]`);
-    this.$submit = () => $(`//button[@title="Create an Account"]`);
-    this.$successMessage = () => $(`//div[@data-ui-id="message-success"]`);
     this.$signout = () => $(`(//button[@class="action switch"])[1]`);
     this.$selectSignout = () =>
       $(`(//div[@class="customer-menu"]//a[normalize-space()="Sign Out"])[1]`);
@@ -68,8 +66,8 @@ class Landingpage extends Common {
    * @param {string} confirmPassword
    */
   async createAccount(firstname, lastname, password, confirmPassword) {
-    let emailPrefix = Math.floor(Math.random() * 1000);
-    this.userEmail = `dsei${emailPrefix}@gmail.com`;
+    let emailPrefix = Math.floor(Math.random() * 10000);
+    this.userEmail = `exj${emailPrefix}@gmail.com`;
 
     await this.$enterDetails(userData.firstName).setValue(firstname);
     await this.$enterDetails(userData.lastName).setValue(lastname);

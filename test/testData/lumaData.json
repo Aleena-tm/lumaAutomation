@@ -39,7 +39,7 @@
     "filterOptionsPattern":["Color-Blocked", "Solid"],
     "filterOptionsList":["24", "26","40","43","46","50"],
     "yesOrNoOptions":["Yes","No"],
-    "indexNumbers":["1","2","3","4","6","9","11","12"],
+    "indexNumbers":["1","2","3","4","6","9","11","12","5"],
 
     "sortingOptions":["Product Name", "Price", "Position"],
     "nameOfProducts":["Olivia 1/4 Zip Light Jacket","Juno Jacket", "Neve Studio Dance Jacket", "Nadia Elements Shell", "Jade Yoga Jacket",
@@ -55,8 +55,17 @@
     "zip":"65434",
     "phone":"9876543210",
     "states":["region_id","country_id"],
-    "stateAndCountry":["Hawaii","Finland"]
+    "stateAndCountry":["Hawaii","Finland"],
 
-   
+    "_first_name": "Example",
+    "_last_name":"Test",
+    "_password_":"Random@123",
+    "_confirm_password":"Random@123",
+
+    "new_number":8765432901,
+    "new_address":"Example Cottage",
+    "new_city":"New city",
+    "new_zip":"65987"
+
 
 }

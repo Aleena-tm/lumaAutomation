@@ -6,8 +6,6 @@ class Checkoutpage extends Common{
         super();
         this.$newAddress=()=>$(`//div[@class="new-address-popup"]//span[.="New Address"]`);
         this.$enterShippingDetails=data=>$(`(//input[@class="input-text"])[${data}]`);
-        this.$selectStateAndCountry=data=>$(`//select[@name="${data}"]`);
-        this.$stateAndCountry=data=>$(`//option[.="${data}"]`);
         this.$next=()=>$(`//button[@type="submit"]/span[text()="Next"]`);
         this.$reviewAndPayments=()=>$(`//div[text()="Payment Method"]`);
         this.$viewCartDetails=()=>$(`//div[@class="block items-in-cart"]`);
@@ -83,13 +81,24 @@ class Checkoutpage extends Common{
      * To click on place order 
      */
     async placeOrder(){
-        // await this.$orderDetails().scrollIntoView({block: 'center'});
         await this.scrollAndClick(this.$placeOrder());
         await this.$thankyouPage().waitForDisplayed({ timeout: 5000, timeoutMsg: "Thank you page should be displayed" });
     }
 
+    /**
+     * To click on continue shopping
+     */
     async continueShopping(){
         await this.scrollAndClick(this.$shoppingContinue());
+    }
+
+    /**
+     * To move to payment page
+     */
+    async moveToPaymentPage(){
+        await this.scrollAndClick(this.$next());
+        await this.$spinner().waitForDisplayed({timeout:5000,reverse:true});
+        await this.$reviewAndPayments().waitForDisplayed({timeout:5000, timeoutMsg:"Should load payment page"});
     }
     
     
