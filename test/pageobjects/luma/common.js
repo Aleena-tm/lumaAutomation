@@ -26,6 +26,7 @@ export default class Common {
     async loadURL(){
         await browser.maximizeWindow();
         await browser.url('https://magento.softwaretestingboard.com/');
+        // await this.$lumaIcon().waitForDisplayed({timeout:5000, timeoutMsg:"Luma icon should be displayed"});
     }
     
     /**
