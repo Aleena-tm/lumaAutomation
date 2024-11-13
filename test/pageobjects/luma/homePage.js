@@ -5,10 +5,11 @@ class Homepage extends Common{
     constructor(){
         super();
         this.$category=data=>$(`//span[text()="${data}"]`);
-        this.$subCategory=(data)=>$(`//li[contains(@class,"${data}")]`);
-        this.$product=(data)=>$(`//li[contains(@class,"${data}")]`);
+        this.$subCategory=data=>$(`//li[contains(@class,"${data}")]`);
+        this.$product=data=>$(`//li[contains(@class,"${data}")]`);
         this.$productsPageHeader=()=>$(`//span[@data-ui-id="page-title-wrapper"]`);
     }
+
 
     /**
      * To search for a product for women

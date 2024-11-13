@@ -112,7 +112,7 @@ export const config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['devtools'],
+    // services: ['devtools'],
     //
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -169,26 +169,27 @@ export const config = {
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
     onComplete: function() {
-        const reportError = new Error('Could not generate Allure report')
-        const generation = allure(['generate', 'test/.artifacts/allure-results',,'--report-dir', 'test/.artifacts/allure-report'])
+        const reportError = new Error('Could not generate Allure report');
+        
+        const generation = allure(['generate', 'test/.artifacts/allure-results', '--report-dir', 'test/.artifacts/allure-report']);
         converter.convertJSONFolderToExcel("test/.artifacts/json-reports");
        
-        const allurePromise = new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             const generationTimeout = setTimeout(() => reject(reportError), 5000);
-
+    
             generation.on('exit', function(exitCode) {
-                clearTimeout(generationTimeout)
-
+                clearTimeout(generationTimeout);
                 
                 if (exitCode !== 0) {
-                    return reject(reportError)
+                    return reject(reportError);
                 }
-
-                console.log('Allure report successfully generated')
-                resolve()
-            })
-        })
+    
+                console.log('Allure report successfully generated');
+                resolve();
+            });
+        });
     },
+    
     /**
      * Gets executed once before all workers get launched.
      * @param {object} config wdio configuration object

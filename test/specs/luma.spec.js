@@ -25,32 +25,32 @@ let shippingProductDetails =[];
 let wishListnameAndPrice=[];
 
 describe("End to end workflow for Luma", () => {
-  it("Load URL of the webpage", async () => {
+  it("Load URL of the webpage and the icon of luma should be displayed", async () => {
     await landingPage.loadURL();
     expect(await landingPage.$lumaIcon().isDisplayed())
-      .withContext("Expected page is not loaded")
+      .withContext("Expected page should be loaded")
       .toBeTrue();
   });
 
-  it("Verify that the user can create an account only by entering mandatory details", async () => {
+  it("Verify that the user can create an account only by entering mandatory details and validate the error message", async () => {
     await landingPage.toVerifycreateAccount();
     expect(await landingPage.$enterMandatoryDetails().isDisplayed())
-      .withContext("Error message is not displayed")
+      .withContext("Error message should be displayed")
       .toBeTrue();
   });
 
-  it("Verify that the Email field only takes valid input data", async () => {
+  it("Verify that the Email field only takes valid input data and validate the error message", async () => {
     await landingPage.toVerifyValidEmail(
       userData.first_name,
       userData.last_name,
       userData.invalid_email
     );
     expect(await landingPage.$enterValidEmail().isDisplayed())
-      .withContext("Error message is not displayed")
+      .withContext("Error message should be displayed")
       .toBeTrue();
   });
 
-  it("Verify the strength of the password field", async () => {
+  it("Verify the strength of the password field and validate the error messages", async () => {
     for (password of userData.password_list) {
     errorMessages = await landingPage.validatePassword(password);
       if (passwordStrength === "weak") {
@@ -76,7 +76,7 @@ describe("End to end workflow for Luma", () => {
     }
   });
 
-  it("Create an account for the user", async () => {
+  it("Create an account for the user and validate the success message", async () => {
     await landingPage.createAccount(
       userData.first_name,
       userData.last_name,
@@ -84,46 +84,46 @@ describe("End to end workflow for Luma", () => {
       userData.confirm_password
     );
     expect(await landingPage.$successMessage().isDisplayed())
-      .withContext("User is not registered")
+      .withContext("User should be registered")
       .toBeTrue();
   });
 
-  it("User should sign out", async () => {
+  it("User should sign out and validate the signed out message", async () => {
     await landingPage.userSignout();
     expect(await landingPage.$signoutMessage().isDisplayed())
-      .withContext("User is not signed out")
+      .withContext("User should be signed out")
       .toBeTrue();
   });
 
-  it("User should sign in using existing credentials", async () => {
+  it("User should sign in using existing credentials and validate the sign in message", async () => {
     await landingPage.userSignin(userData.password_);
     expect(await landingPage.$siginMessage().isDisplayed())
-      .withContext("User is not signed in")
+      .withContext("User should signed in")
       .toBeTrue();
   });
 
-  it("User should search for a product from men category at the navigation bar", async () => {
+  it("User should search for a product from men category at the navigation bar and validate products page header", async () => {
     await homePage.searchMenProduct();
     expect(await homePage.$productsPageHeader().isDisplayed())
       .withContext("Product page should be displayed")
       .toBeTrue();
   });
 
-  it("User should search for a product from gear category at the navigation bar", async () => {
+  it("User should search for a product from gear category at the navigation bar and validate products page header", async () => {
     await homePage.searchGearProduct();
     expect(await homePage.$productsPageHeader().isDisplayed())
       .withContext("Product page should be displayed")
       .toBeTrue();
   });
 
-  it("User should search for a product from women category at the navigation bar", async () => {
+  it("User should search for a product from women category at the navigation bar and validate products page header", async () => {
     await homePage.searchWomenProduct();
     expect(await homePage.$productsPageHeader().isDisplayed())
       .withContext("Product page should be displayed")
       .toBeTrue();
   });
 
-  it("User should filter products according to style", async () => {
+  it("User should filter products according to style and validate the selected filter option", async () => {
     for (filterOption of userData.filterOptionsListStyle) {
       await productsPage.selectFilterStyle(filterOption);
       expect(await productsPage.$filterHeader().isDisplayed())
@@ -136,7 +136,7 @@ describe("End to end workflow for Luma", () => {
     }
   });
 
-  it("User should filter products according to size", async () => {
+  it("User should filter products according to size and validate the selected filter option", async () => {
     for (filterOption of userData.filterOptionsSize) {
       await productsPage.selectFilterSize(filterOption);
       expect(await productsPage.$filterHeader().isDisplayed())
@@ -149,7 +149,7 @@ describe("End to end workflow for Luma", () => {
     }
   });
 
-  it("User should filter products according to climate", async () => {
+  it("User should filter products according to climate and validate the selected filter option", async () => {
     for (filterOption of userData.filterOptionsClimate) {
       await productsPage.selectFilterClimate(filterOption);
       expect(await productsPage.$filterHeader().isDisplayed())
@@ -162,7 +162,7 @@ describe("End to end workflow for Luma", () => {
     }
   });
 
-  it("User should filter products according to color", async () => {
+  it("User should filter products according to color and validate the selected filter option", async () => {
     for (filterOption of userData.filterOptionsColor) {
       await productsPage.selectFilterColor(filterOption);
       expect(await productsPage.$filterHeader().isDisplayed())
@@ -175,7 +175,7 @@ describe("End to end workflow for Luma", () => {
     }
   });
 
-  it("User should filter products according to eco collection", async () => {
+  it("User should filter products according to eco collection and validate the selected filter option", async () => {
     await productsPage.selectFilterEcoCollection();
     expect(await productsPage.$filterHeader().isDisplayed())
       .withContext("Product page should be displayed for the selected filter")
@@ -186,7 +186,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   });
 
-  it("User should filter products according to erin recommends", async () => {
+  it("User should filter products according to erin recommends and validate the selected filter option", async () => {
     await productsPage.selectFilterErinRecommends();
     expect(await productsPage.$filterHeader().isDisplayed())
       .withContext("Product page should be displayed for the selected filter")
@@ -197,7 +197,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   });
 
-  it("User should filter products according to material", async () => {
+  it("User should filter products according to material and validate the selected filter option", async () => {
     for (filterOption of userData.filterOptionsMaterial) {
       await productsPage.selectFilterMaterial(filterOption);
       expect(await productsPage.$filterHeader().isDisplayed())
@@ -210,7 +210,7 @@ describe("End to end workflow for Luma", () => {
     }
   });
 
-  it("User should filter products according to new", async () => {
+  it("User should filter products according to new and validate the selected filter option", async () => {
     await productsPage.selectFilterNew();
     expect(await productsPage.$filterHeader().isDisplayed())
       .withContext("Product page should be displayed for the selected filter")
@@ -221,7 +221,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   });
 
-  it("User should filter products according to pattern", async () => {
+  it("User should filter products according to pattern and validate the selected filter option", async () => {
     for (filterOption of userData.filterOptionsPattern) {
       await productsPage.selectFilterPattern(filterOption);
       expect(await productsPage.$filterHeader().isDisplayed())
@@ -234,7 +234,7 @@ describe("End to end workflow for Luma", () => {
     }
   });
 
-  it("User should filter products according to performance fabric", async () => {
+  it("User should filter products according to performance fabric and validate the selected filter option", async () => {
     await productsPage.selectFilterPerformanceFabric();
     expect(await productsPage.$filterHeader().isDisplayed())
       .withContext("Product page should be displayed for the selected filter")
@@ -245,7 +245,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   });
 
-  it("User should filter products according to price", async () => {
+  it("User should filter products according to price and validate the selected filter option", async () => {
     await productsPage.selectFilterPrice();
     expect(await productsPage.$filterHeader().isDisplayed())
       .withContext("Product page should be displayed for the selected filter")
@@ -256,7 +256,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   });
 
-  it("User should filter products according to sale", async () => {
+  it("User should filter products according to sale and validate the selected filter option", async () => {
     await productsPage.selectFilterSale();
     expect(await productsPage.$filterHeader().isDisplayed())
       .withContext("Product page should be displayed for the selected filter")
@@ -267,7 +267,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   });
 
-  it("User should filter products according to all the filter options", async () => {
+  it("User should filter products according to all the filter options validate the filter options selected", async () => {
     await productsPage.selectAllFilters();
     expect(await productsPage.$filtersChoosed().isDisplayed())
       .withContext(
@@ -280,14 +280,14 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   });
 
-  it("Verify the user can sort the products according to product name", async () => {
+  it("Verify the user can sort the products according to the product name and validate the names are sorted or not", async () => {
     isSorted = await productsPage.sortByNames();
     expect(isSorted)
       .withContext("Product names should be sorted in ascending order")
       .toBeTrue();
   });
 
-  it("Verify the user can sort the products according to price", async () => {
+  it("Verify the user can sort the products according to the price and validate the prices are sorted or not", async () => {
     isSorted = await productsPage.sortByPrice();
     expect(isSorted)
       .withContext("Products should be sorted according to price")
@@ -315,7 +315,7 @@ describe("End to end workflow for Luma", () => {
       .toContain("active");
   });
 
-  it("Verify the product details of a product present on the product page", async () => {
+  it("Verify the product details: size and color of a product present on the product page", async () => {
     nameAndPrice= await productsPage.validateProductPageDetails();
     expect(await productsPage.$sizeOptions(1).isDisplayed())
       .withContext("Size options should be displayed")
@@ -325,7 +325,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   });
 
-  it("verify the product details present on the product page", async()=>{
+  it("verify the product details: add to cart option, add to wishlist option, add to compare option are present on the product page", async()=>{
     expect(await productsPage.$addToCart(1).isDisplayed())
       .withContext("Add to cart option should be displayed")
       .toBeTrue();
@@ -337,7 +337,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   });
 
-  it("Verify the details of a product present on the product details page is same as product page", async () => {
+  it("Verify the details: name and parice of a product present on the product details page is same as product page", async () => {
     productDetails= await productDetailsPage.validateProductDetailsPage();
     expect(productName)
       .withContext("Product names should be same")
@@ -347,7 +347,7 @@ describe("End to end workflow for Luma", () => {
       .toEqual(priceOfProduct);
   });
 
-    it("Verify the product details present on the product details page", async ()=>{
+    it("Verify the product details: size and color present on the product details page", async ()=>{
     expect(await productDetailsPage.$sizeOptions(1).isDisplayed())
       .withContext("Size options should be displayed")
       .toBeTrue();
@@ -356,7 +356,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
     });
 
-    it("Verify the product details of the product on product details page", async()=>{
+    it("Verify the product details: add to cart option, add to wishlist option, add to compare option are present on the product details page", async()=>{
     expect(await productDetailsPage.$addToCart(1).isDisplayed())
       .withContext("Add to cart option should be displayed")
       .toBeTrue();
@@ -378,11 +378,11 @@ describe("End to end workflow for Luma", () => {
   it("Verify adding product to the cart, by selecting the size, color and quantity of the product", async()=>{
     cartQuantity= await productDetailsPage.addProductToCart()
     expect(cartQuantity)
-      .withContext("Products should be added to the cart")
+      .withContext("Products quantity on the should be same as the selected")
       .toEqual(productQuantity);
   });
 
-  it("Verify the product details on the cart popup", async()=>{
+  it("Verify the product details: name and price on the cart popup", async()=>{
     detailsOfCartPopup=await cartPopupPage.validateCartPopup();
     expect(nameMiniCart)
       .withContext("Product name should be same")
@@ -392,14 +392,14 @@ describe("End to end workflow for Luma", () => {
       .toEqual(priceOfProduct);
   })
 
-  it("User should navigate to the cart page", async()=>{
+  it("User should navigate to the cart page and validate the cart page header", async()=>{
     await cartPopupPage.moveToCartPage();
     expect(await cartPage.$cartHeader().isDisplayed())
       .withContext("Cart page should be loaded")
       .toBeTrue();
   })
 
-  it("Verify the product details on the cart page", async()=>{
+  it("Verify the product details on the cart page: name and price", async()=>{
     cartPageDetails = await cartPage.validateCartPage();
     expect(cartPageDetails[0])
       .withContext("The product name on the cart page should be same as the name of the product")
@@ -418,14 +418,14 @@ describe("End to end workflow for Luma", () => {
     .toEqual(productQuantity);
   })
 
-  it("User should navigate to the checkout page", async()=>{
+  it("User should navigate to the checkout page and validate the checkout page header", async()=>{
     await cartPage.moveToCheckoutPage();
     expect(await cartPage.$checkoutHeader().isDisplayed())
       .withContext("User should be navigated to the checkout page")
       .toBeTrue();
   })
 
-  it("User should enter shipping address", async()=>{
+  it("User should enter shipping address and navigate to payment page", async()=>{
     await checkoutPage.enterShippingDetails();
     expect(await checkoutPage.$reviewAndPayments().isDisplayed())
       .withContext("User should be navigated to the checkout page")
@@ -445,28 +445,28 @@ describe("End to end workflow for Luma", () => {
       .toEqual(detailsOfCartPopup[2]);
   })
 
-  it("User should place order and move to thankyou page", async()=>{
+  it("User should place order and validate thankyou page header", async()=>{
     await checkoutPage.placeOrder();
     expect(await checkoutPage.$thankyouPage().isDisplayed())
       .withContext("User should be navigated to the thankyou page")
       .toBeTrue();
   })
 
-  it("User should navigate back to home page after completing checkout", async()=>{
+  it("User should navigate back to home page after completing checkout and navigate home page icon", async()=>{
     await checkoutPage.continueShopping();
     expect(await checkoutPage.$lumaIcon().isDisplayed())
       .withContext("User should be navigated to the thankyou page")
       .toBeTrue();
   })
 
-  it("User should navigate to a product from home page", async()=>{
+  it("User should navigate to a product from home page and validate products page header", async()=>{
     await homePage.searchMenProduct();
     expect(await homePage.$productsPageHeader().isDisplayed())
       .withContext("Product page should be displayed")
       .toBeTrue();
   })
 
-  it("User should validate product details and add it to the wishlist", async()=>{
+  it("User should validate product details and add it to the wishlist and validate wishlist page header", async()=>{
     nameAndPrice= await productsPage.validateProductPageDetails();
     await productsPage.addToWishList();
     expect(await productsPage.$wishlistHeader().isDisplayed())
@@ -492,7 +492,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   });
 
-  it("User should validate product details and add the product to the wishlist", async()=>{
+  it("User should validate product details of another product and add the product to the wishlist", async()=>{
     nameAndPrice= await productsPage.validateProductPageDetails();
     await productsPage.addToWishList();
     expect(await productsPage.$wishlistHeader().isDisplayed())
@@ -500,7 +500,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   })
 
-  it("Verify the product name and price on the wishlist page", async()=>{
+  it("Verify the product name and price of the gear product on the wishlist page", async()=>{
     wishListnameAndPrice = await productsPage.wishListValidationOfProductTwo();
     expect(wishListnameAndPrice[0])
       .withContext("Name of the product should be same")
@@ -511,35 +511,35 @@ describe("End to end workflow for Luma", () => {
 
   })
 
-  it("User should remove the product from wishlist", async()=>{
+  it("User should remove a product from the wishlist and validate the empty message", async()=>{
     await productsPage.removeWishlist();
     expect(await productsPage.$emptyMsg().isDisplayed())
       .withContext("Products should be removed from the wishlist")
       .toBeTrue();
   })
 
-  it("User should search for a product to add it to the cart", async()=>{
+  it("User should search for a women product to add it to the cart and validate prodcts page header", async()=>{
     await homePage.searchWomenProduct();
     expect(await homePage.$productsPageHeader().isDisplayed())
       .withContext("Product page should be displayed")
       .toBeTrue();
   })
 
-  it("User should add a product to the cart", async()=>{
+  it("User should click add to cart button for the product and navigate to the products details page", async()=>{
     await productsPage.addProductToCart();
     expect(await productDetailsPage.$addedToCartValidation().isDisplayed())
       .withContext("Product should be added to the cart")
       .toBeTrue();
   })
 
-  it("User should select size and color of product to add to the cart", async()=>{
+  it("User should select size and color of product to add it to the cart", async()=>{
     await productDetailsPage.addWomenProductToCart();
     expect(await productDetailsPage.$cartPopup().isDisplayed())
     .withContext("Product should be added to the cart")
     .toBeTrue();
   })
 
-  it("User should select cart popup", async()=>{
+  it("User should select the cart popup and validate ", async()=>{
     await productDetailsPage.selectCartPopup();
     expect(await cartPopupPage.$cartProducts(userData.indexNumbers[0]).isDisplayed())
       .withContext("Product should be added to the cart")
