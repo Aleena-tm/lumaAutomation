@@ -23,7 +23,7 @@ jobs:
               run: npm install
            
             - name: Execute tests
-              run: npm run lumaFlow
+              run: npx wdio run wdio.conf.js
            
             - name: Install Allure CommandLine
               if: always()
