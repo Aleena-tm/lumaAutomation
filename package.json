@@ -19,7 +19,6 @@
     "openReport": "allure open test/.artifacts/allure-report"
   },
   "dependencies": {
-    "@faker-js/faker": "^9.0.3",
     "allure-commandline": "^2.30.0",
     "exceljs": "^4.4.0"
   }

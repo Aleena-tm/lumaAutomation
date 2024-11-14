@@ -12,30 +12,35 @@ jobs:
         name: UI tests
         steps:
             - uses: actions/checkout@v3
-           
+
+            - name: Print working directory and list files (Debugging)
+              run: |
+                pwd
+                ls -la  # List all files to ensure the correct files exist, especially wdio.conf.js
+
             - name: Setup Node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: 20
+                  node-version: '18'  # Try using Node.js 18 if 20 is causing issues
                   cache: npm
-           
+
             - name: Install packages
               run: npm install
-           
-            - name: Execute tests
-              run: npx wdio run wdio.conf.js
-           
+
+            - name: Execute tests with npx
+              run: npx wdio run wdio.conf.js  # Ensure the correct config file path
+
             - name: Install Allure CommandLine
               if: always()
               run: npm install -g allure-commandline
-           
+
             - name: Combine Allure
               if: always()
               run: npm run allureCombine
-           
+
             - name: Upload Test Report
               if: always()
               uses: actions/upload-artifact@v3
               with:
                   name: Allure report
-                  path: test/.artifacts/allure-report/complete.html # Ensure this path is correct# This is a basic workflow to help you get started with Actions
+                  path: test/.artifacts/allure-report/complete.html
