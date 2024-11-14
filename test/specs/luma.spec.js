@@ -731,7 +731,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue()
   })
 
-  it("User should view the previous orders", async()=>{
+  it("User should view the previous orders and validate the product name", async()=>{
     await myAccountPage.viewOrder();
     expect(await myAccountPage.$orderedProduct().isDisplayed())
       .withContext("Product name should be displayed")
