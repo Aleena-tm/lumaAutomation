@@ -703,28 +703,28 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   })
 
-  it("User should edit address from the my account page", async()=>{
+  it("User should edit address from the my account page and validate the success message", async()=>{
     await myAccountPage.changeAddress();
     expect(await myAccountPage.$successMessage().isDisplayed())
       .withContext("New Address should be saved")
       .toBeTrue()
   })
 
-  it("User should sign out to previous account", async () => {
+  it("User should sign out from the newly created account and validate sign out message", async () => {
     await landingPage.userSignout();
     expect(await landingPage.$signoutMessage().isDisplayed())
       .withContext("User is not signed out")
       .toBeTrue();
   });
 
-  it("User should sign in using the previous credentials", async () => {
+  it("User should sign in using the initial credentials and validate the signin message", async () => {
     await landingPage.userSignin(userData.password_);
     expect(await landingPage.$siginMessage().isDisplayed())
       .withContext("User is not signed in")
       .toBeTrue();
   });
 
-  it("User should navigate to my orders", async ()=>{
+  it("User should navigate to my orders and validate the my orders page header", async ()=>{
     await myAccountPage.clickMyOrder();
     expect(await myAccountPage.$myOrderHeader().isDisplayed())
       .withContext("New Address should be saved")
