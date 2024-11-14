@@ -3,6 +3,7 @@
   "type": "module",
   "devDependencies": {
     "@wdio/allure-reporter": "^9.0.8",
+    "@wdio/cli": "^9.2.12",
     "@wdio/devtools-service": "^8.40.2",
     "@wdio/jasmine-framework": "^9.0.9",
     "@wdio/json-reporter": "^9.2.2",

@@ -13,22 +13,20 @@ jobs:
         steps:
             - uses: actions/checkout@v3
 
-            - name: Print working directory and list files (Debugging)
-              run: |
-                pwd
-                ls -la  # List all files to ensure the correct files exist, especially wdio.conf.js
+            - name: List files (Debugging)
+              run: ls -la  # This will show the structure of your files to ensure wdio.conf.js exists
 
             - name: Setup Node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: '18'  # Try using Node.js 18 if 20 is causing issues
+                  node-version: '16'  # Use Node.js 16 for compatibility
                   cache: npm
 
             - name: Install packages
               run: npm install
 
             - name: Execute tests with npx
-              run: npx wdio run wdio.conf.js  # Ensure the correct config file path
+              run: npx wdio run wdio.conf.js  # Ensure this points to the correct config file
 
             - name: Install Allure CommandLine
               if: always()
