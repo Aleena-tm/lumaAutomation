@@ -12,34 +12,31 @@ jobs:
         name: UI tests
         steps:
             - uses: actions/checkout@v3
-
-            - name: List files (Debugging)
-              run: ls -la  # This will show the structure of your files to ensure wdio.conf.js exists
-
+           
             - name: Setup Node.js
               uses: actions/setup-node@v3
               with:
-                  node-version: '16'  # Use Node.js 16 for compatibility
+                  node-version: 20
                   cache: npm
-
+           
             - name: Install packages
               run: npm install
-
-            - name: Execute tests with npx
+           
+            - name: Execute tests
               run: npm run lumaFlow
-  
-
+           
             - name: Install Allure CommandLine
               if: always()
               run: npm install -g allure-commandline
-
+           
             - name: Combine Allure
               if: always()
               run: npm run allureCombine
-
+           
             - name: Upload Test Report
               if: always()
               uses: actions/upload-artifact@v3
               with:
                   name: Allure report
-                  path: test/.artifacts/allure-report/complete.html
+                  path: test/.artifacts/allure-report/complete.html # Ensure this path is correct
+ 
