@@ -427,7 +427,7 @@ class Productspage extends Common{
          }
          await this.scrollAndClick(this.$proceedToCheckout());
          await this.$spinner().waitForDisplayed({timeout:10000,reverse:true});
-         await this.$shippingHeader.waitForDisplayed({timeout:5000, timeOutMsg:"Shipping page header should be displayed"});
+         await this.$shippingHeader().waitForDisplayed({timeout:5000, timeOutMsg:"Shipping page header should be displayed"});
      }
 
      /**

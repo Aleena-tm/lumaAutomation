@@ -1,6 +1,9 @@
 name: Luma workflow
 on:
   workflow_dispatch: # Allows manual triggering of the workflow
+   schedule:
+    # Run daily at 5:00 AM UTC (equivalent to 10:30 AM IST)
+    - cron: '0 6 * * *'
 
 jobs:
   test:
