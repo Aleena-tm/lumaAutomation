@@ -623,7 +623,7 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue();
   })
 
-  it("User should add the wishlisted product to the cart", async()=>{
+  it("User should add the wishlisted product to the cart and validate the cart popup", async()=>{
     await productsPage.wishlistProductToCart();
     expect(await productsPage.$cartPopup().isDisplayed())
       .withContext("Product should be added to the cart")

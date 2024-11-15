@@ -19,6 +19,7 @@ export default class Common {
         this.$selectStateAndCountry=data=>$(`//select[@name="${data}"]`);
         this.$stateAndCountry=data=>$(`//option[.="${data}"]`);
         this.$cartHeader=()=>$(`//span[.="Shopping Cart"]`);
+        this.$shippingHeader=()=>$(`//div[text()="Shipping Address"]`);
     }
     /**
      * To load Url of the page.
