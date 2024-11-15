@@ -32,17 +32,6 @@ jobs:
       - name: Combine Allure reports
         run: npm run allureCombine
 
-      - name: Generate Excel report
-        run: node test/.artifacts/json-reports/generateReport.js  # Ensure this is your script to generate the report
-
-      # Add the verification step here to check if the report exists
-      - name: Verify if Excel report exists
-        run: |
-          if [ ! -f test/.artifacts/test-report.xlsx ]; then
-            echo "Excel report not found!"
-            exit 1
-          fi
-
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
         with:
