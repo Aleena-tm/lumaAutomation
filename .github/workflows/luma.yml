@@ -33,7 +33,7 @@ jobs:
         run: npm run allureCombine
 
       - name: Generate Excel report
-        run: node path/to/your-excel-script.js
+        run: node test/.artifacts/json-reports/test-report.xlsx
 
       - name: Upload Allure Report
         uses: actions/upload-artifact@v3
@@ -45,4 +45,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Excel Report
-          path: path/to/your-excel-report/test-report.xlsx
+          path: test/.artifacts/json-reports/test-report.xlsx
