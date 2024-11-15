@@ -1,46 +1,48 @@
 name: Luma workflow
+
 on:
   workflow_dispatch: # Allows manual triggering of the workflow
-   on:
   schedule:
-    # Run daily at 6:10 AM UTC (equivalent to 11:40 AM IST)
-    - cron: '10 6 * * *'
-
+    # Run daily at 6:25 AM UTC (equivalent to 11:55 AM IST)
+    - cron: '25 6 * * *'
 
 jobs:
   test:
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
     runs-on: ubuntu-latest
-    name: UI tests
+    name: Generate and Upload Reports
     steps:
-      - uses: actions/checkout@v3
-       
-      - name: Setup Node.js
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
           cache: npm
-       
-      - name: Install packages
+
+      - name: Install dependencies
         run: npm install
-       
-      - name: Execute tests
+
+      - name: Run WebdriverIO Tests
         run: npm run lumaFlow
-       
+
       - name: Install Allure CommandLine
-        if: always()
         run: npm install -g allure-commandline
-       
-      - name: Combine Allure
-        if: always()
+
+      - name: Combine Allure reports
         run: npm run allureCombine
-       
-      - name: Upload Test Report
-        if: always()
+
+      - name: Generate Excel report
+        run: node path/to/your-excel-script.js
+
+      - name: Upload Allure Report
         uses: actions/upload-artifact@v3
         with:
-          name: Allure report
-          path: test/.artifacts/allure-report/complete.html # Ensure this path is correct
+          name: Allure Report
+          path: test/.artifacts/allure-report/complete.html
+
+      - name: Upload Excel Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: Excel Report
+          path: path/to/your-excel-report/test-report.xlsx
