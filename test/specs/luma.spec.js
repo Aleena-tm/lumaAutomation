@@ -40,49 +40,41 @@ describe("End to end workflow for Luma", () => {
   });
 
   it("Verify that the Email field only takes valid input data and validate the error message", async () => {
-    await landingPage.toVerifyValidEmail(
-      userData.first_name,
-      userData.last_name,
-      userData.invalid_email
-    );
+    await landingPage.toVerifyValidEmail("firstname", "lastname", "email");
     expect(await landingPage.$enterValidEmail().isDisplayed())
       .withContext("Error message should be displayed")
       .toBeTrue();
   });
 
-  it("Verify the strength of the password field and validate the error messages", async () => {
-    for (password of userData.password_list) {
-    errorMessages = await landingPage.validatePassword(password);
+  it("Verify the strength of the password field and validate the error messages for weak password", async () => {
+    errorMessages = await landingPage.validatePassword("password");
       if (passwordStrength === "weak") {
         expect(await landingPage.$passwordStrength().isDisplayed())
           .withContext(`Password strength should be strong`)
           .toBeTrue();
         expect(errorMessage)
-          .toSatisfy(
-            (msg) =>
+          .toSatisfy((msg) =>
               msg.includes("minimum length") ||
-              msg.includes("different classes of characters")
-          )
-          .withContext(`Error message should be displayed`);
-      } else if (passwordStrength === "medium") {
+              msg.includes("different classes of characters"))
+          .withContext(`Error message should be displayed`)
+          .toBeTrue();
+         } 
+  });
+
+  it("Verify the strength of the password field and validate the error messages for medium and strong passwords", async () => {       
+      if (passwordStrength === "medium") {
         expect(await landingPage.$passwordStrength().isDisplayed())
           .withContext(`Password strength should be medium`)
           .toBeTrue();
-      } else {
+      }else {
         expect(await landingPage.$passwordStrength().isDisplayed())
           .withContext(`Password strength should be strong`)
           .toBeTrue();
       }
-    }
   });
 
   it("Create an account for the user and validate the success message", async () => {
-    await landingPage.createAccount(
-      userData.first_name,
-      userData.last_name,
-      userData.password_,
-      userData.confirm_password
-    );
+    await landingPage.createAccount("firstname", "lastname", "email", "password", "password_confirmation");
     expect(await landingPage.$successMessage().isDisplayed())
       .withContext("User should be registered")
       .toBeTrue();

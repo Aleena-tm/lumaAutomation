@@ -1,6 +1,7 @@
 export default class Common {
     constructor(){
         this.$lumaIcon = () => $(`//a[@class="logo"]`);
+        this.$createUserAccount = () => $(`(//a[text()="Create an Account"])[1]`);
         this.$enterDetails = (data) => $(`//input[@name="${data}"]`);
         this.$productName=(data)=>$(`(//a[@class="product-item-link"])[${data}]`);
         this.$sizeOptions=(data)=>$(`(//div[@attribute-code="size"])[${data}]`);
@@ -27,7 +28,8 @@ export default class Common {
     async loadURL(){
         await browser.maximizeWindow();
         await browser.url('https://magento.softwaretestingboard.com/');
-        // await this.$lumaIcon().waitForDisplayed({timeout:5000, timeoutMsg:"Luma icon should be displayed"});
+        await this.$lumaIcon().waitForDisplayed({timeout:5000, timeoutMsg:"Luma icon should be displayed"});
+        await this.$createUserAccount().waitForDisplayed({timeout:5000, timeoutMsg:"create user account option should be displayed"});
     }
     
     /**

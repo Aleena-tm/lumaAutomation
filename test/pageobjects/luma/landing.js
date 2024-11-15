@@ -5,7 +5,6 @@ class Landingpage extends Common {
   constructor() {
     super();
     this.userEmail = null;
-    this.$createUserAccount = () => $(`(//a[text()="Create an Account"])[1]`);
     this.$enterMandatoryDetails = () => $(`//div[@id="email_address-error"]`);
     this.$errorMessageForPassword=()=> $(`//div[@id="password-error"]`);
     this.$passwordStrength=()=>$(`//span[@id="password-strength-meter-label"]`);
@@ -28,21 +27,27 @@ class Landingpage extends Common {
   async toVerifycreateAccount() {
     await this.scrollAndClick(this.$createUserAccount());
     await this.scrollAndClick(this.$submit());
+    await this.$enterMandatoryDetails().waitForDisplayed({timeout:5000, timeoutMsg: "Header should be displayed"});
   }
 
   /**
    * 
    * @param {string} password 
    */
-  async validatePassword(password) {
-    await this.$enterDetails(userData.password).setValue(password);
-    const [errorMessageOfPassword, passwordStrengths] = await Promise.all([
+  async validatePassword(passwordtext) {
+    let results = []; 
+    for (let password of userData.password_list) {
+      await this.$enterDetails(passwordtext).setValue(password);
+      let [errorMessageOfPassword, passwordStrengths] = await Promise.all([
         this.$errorMessageForPassword().getText(),
-        this.$passwordStrength().getText()
-    ]);
-    await this.$enterDetails(userData.password).clearValue(); 
-    return [errorMessageOfPassword, passwordStrengths]; 
-}
+        this.$passwordStrength().getText(),
+      ]);
+      await this.$enterDetails(passwordtext).clearValue();
+      results.push({errorMessageOfPassword, passwordStrengths });
+    }
+    return results; 
+  }
+  
 
 
   /**
@@ -51,10 +56,10 @@ class Landingpage extends Common {
    * @param {string} lastname
    * @param {string} invalid_email
    */
-  async toVerifyValidEmail(firstname, lastname, invalid_email) {
-    await this.$enterDetails(userData.firstName).setValue(firstname);
-    await this.$enterDetails(userData.lastName).setValue(lastname);
-    await this.$enterDetails(userData.email).setValue(invalid_email);
+  async toVerifyValidEmail(firstname, lastname, email) {
+    await this.$enterDetails(firstname).setValue(userData.first_name);
+    await this.$enterDetails(lastname).setValue(userData.last_name);
+    await this.$enterDetails(email).setValue(userData.invalid_email);
     await this.scrollAndClick(this.$submit());
   }
 
@@ -65,17 +70,15 @@ class Landingpage extends Common {
    * @param {string} password
    * @param {string} confirmPassword
    */
-  async createAccount(firstname, lastname, password, confirmPassword) {
+  async createAccount(firstname, lastname, email, password, confirmPassword) {
     let emailPrefix = Math.floor(Math.random() * 10000);
     this.userEmail = `exj${emailPrefix}@gmail.com`;
 
-    await this.$enterDetails(userData.firstName).setValue(firstname);
-    await this.$enterDetails(userData.lastName).setValue(lastname);
-    await this.$enterDetails(userData.email).setValue(this.userEmail);
-    await this.$enterDetails(userData.password).setValue(password);
-    await this.$enterDetails(userData.confirmPassword).setValue(
-      confirmPassword
-    );
+    await this.$enterDetails(firstname).setValue(userData.first_name);
+    await this.$enterDetails(lastname).setValue(userData.last_name);
+    await this.$enterDetails(email).setValue(this.userEmail);
+    await this.$enterDetails(password).setValue(userData.password_);
+    await this.$enterDetails(confirmPassword).setValue(userData.confirm_password);
     await this.scrollAndClick(this.$submit());
     await this.$successMessage().waitForDisplayed({
       timeout: 5000,
