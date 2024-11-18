@@ -3,7 +3,7 @@ name: Luma workflow
 on:
   workflow_dispatch: # Allows manual triggering of the workflow
   schedule:
-    # Run daily at 6:25 AM UTC (equivalent to 11:55 AM IST)
+    # Run daily at 8:30 AM UTC
     - cron: '30 8 * * *'
 
 jobs:
@@ -24,7 +24,9 @@ jobs:
         run: npm install
 
       - name: Run WebdriverIO Tests
-        run: npm run lumaFlow
+        run: |
+          npm run lumaFlow
+          echo "Exit Code: $?" # Print the exit code of the test run
 
       - name: Install Allure CommandLine
         run: npm install -g allure-commandline
