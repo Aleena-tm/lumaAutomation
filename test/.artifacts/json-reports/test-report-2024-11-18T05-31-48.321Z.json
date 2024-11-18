@@ -1,0 +1,37 @@
+[
+  {
+    "timestamp": "2024-11-18T05:31:21.864Z",
+    "suiteName": "User account creation and log insuite1",
+    "testName": "To be able to load the URL",
+    "status": "PASSED",
+    "error": ""
+  },
+  {
+    "timestamp": "2024-11-18T05:31:26.219Z",
+    "suiteName": "User account creation and log insuite1",
+    "testName": "To be able to click on Create an Account",
+    "status": "PASSED",
+    "error": ""
+  },
+  {
+    "timestamp": "2024-11-18T05:31:33.848Z",
+    "suiteName": "User account creation and log insuite1",
+    "testName": "To able to enter the details for account creation",
+    "status": "PASSED",
+    "error": ""
+  },
+  {
+    "timestamp": "2024-11-18T05:31:39.585Z",
+    "suiteName": "User account creation and log insuite1",
+    "testName": "To be able to sign out succesfully and validate sign out message",
+    "status": "PASSED",
+    "error": ""
+  },
+  {
+    "timestamp": "2024-11-18T05:31:48.138Z",
+    "suiteName": "User account creation and log insuite1",
+    "testName": "To be able to sign in succesfully with the new user credentials",
+    "status": "PASSED",
+    "error": ""
+  }
+]
