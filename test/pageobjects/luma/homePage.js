@@ -69,6 +69,9 @@ class Homepage extends Common {
     await this.$actionbutton().click();
     await this.$signOut().click();
     await this.$signOutMessage().waitForDisplayed({ timeOut: 2000 });
+    let signoutMessage = await this.$signOutMessage().getText();
+    return signoutMessage;
+    console.log;
   }
 
   async userSignIn(email, passWord) {
