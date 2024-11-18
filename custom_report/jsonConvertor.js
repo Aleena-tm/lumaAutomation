@@ -215,3 +215,4 @@ export default class JSONToExcelConverter {
         fs.appendFileSync(filePath, testSummary);
     }
 }
+ 

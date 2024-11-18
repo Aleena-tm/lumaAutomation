@@ -1,12 +1,12 @@
 import allure from 'allure-commandline';
 import fs from 'fs';
-import helpers from './test/helpers/overWriteArtifacts.js'; 
-
+import helpers from './test/helpers/overWriteArtifacts.js';
 import JSONReporter from './custom_report/jsonReporter.js';
 import JSONToExcelConverter from "./custom_report/jsonConvertor.js";
 const converter = new JSONToExcelConverter(
   "./test/.artifacts/test-report.xlsx"
 );
+
 export const config = {
     //
     // ====================
@@ -30,9 +30,7 @@ export const config = {
     // of the config file unless it's absolute.
     //
     specs: [
-        // './test/specs/**/*.js'
-        './test/specs/luma.spec.js'
-    //    `./test/specs/flipkart.spec.js`
+        './test/specs/luma.e2e.spec.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -54,17 +52,14 @@ export const config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 1,
+    maxInstances: 10,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'chrome',
-        'goog:chromeOptions': {
-            args: ['--headless','--disable-gpu', '--window-size=1920,1080'],
-        },
+        browserName: 'chrome'
     }],
 
     //
@@ -74,7 +69,7 @@ export const config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'error',
+    logLevel: 'info',
     //
     // Set specific log levels per logger
     // loggers:
@@ -114,8 +109,8 @@ export const config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['devtools'],
-    //
+    services: ['visual'],
+
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
     // see also: https://webdriver.io/docs/frameworks
@@ -141,13 +136,11 @@ export const config = {
         outputDir: 'test/.artifacts/allure-results',
         disableWebdriverStepsReporting: true,
         disableWebdriverScreenshotsReporting: false,
-    }],
-    [
+    }],[
         JSONReporter,
         { outputFile: "test/.artifacts/json-reports/test-results.json" },
       ],
     ],
-
 
     // Options to be passed to Jasmine.
     jasmineOpts: {
@@ -170,28 +163,6 @@ export const config = {
     // it and to build services around it. You can either apply a single function or an array of
     // methods to it. If one of them returns with a promise, WebdriverIO will wait until that promise got
     // resolved to continue.
-    onComplete: function() {
-        const reportError = new Error('Could not generate Allure report');
-        
-        const generation = allure(['generate', 'test/.artifacts/allure-results', '--report-dir', 'test/.artifacts/allure-report']);
-        converter.convertJSONFolderToExcel("test/.artifacts/json-reports");
-       
-        return new Promise((resolve, reject) => {
-            const generationTimeout = setTimeout(() => reject(reportError), 5000);
-    
-            generation.on('exit', function(exitCode) {
-                clearTimeout(generationTimeout);
-                
-                if (exitCode !== 0) {
-                    return reject(reportError);
-                }
-    
-                console.log('Allure report successfully generated');
-                resolve();
-            });
-        });
-    },
-    
     /**
      * Gets executed once before all workers get launched.
      * @param {object} config wdio configuration object
@@ -199,14 +170,14 @@ export const config = {
      */
     onPrepare: async function (config, capabilities) {
         const dir = 'test/.artifacts';
-
+ 
         if (fs.existsSync(dir)) {
             fs.rmSync(dir, { recursive: true });
             console.log(`${dir} artifacts is cleared`);
         } else {
             console.log('artifacts directory does not exist, nothing to clear');
         }
-
+ 
         try {
             fs.mkdirSync(dir);
             console.log(`${dir} directory is recreated`);
@@ -215,7 +186,6 @@ export const config = {
             console.error('Error calling helpers.writeToTempFile:', err);
         }
     },
-
     /**
      * Gets executed before a worker process is spawned and can be used to initialize specific service
      * for that worker as well as modify runtime environments in an async fashion.
@@ -295,15 +265,13 @@ export const config = {
      * @param {boolean} result.passed    true if test has passed, otherwise false
      * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
      */
-
     afterTest: async function(test, context, { error, result, duration, passed, retries }) {
-        if(error)
-        {
+        if (error) {
             await browser.takeScreenshot();
         }
     },
-    
-    
+
+
     /**
      * Hook that gets executed after the suite has ended
      * @param {object} suite suite details
@@ -344,8 +312,25 @@ export const config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {<Object>} results object containing test results
      */
-    // onComplete: function(exitCode, config, capabilities, results) {
-    // },
+    onComplete: function() {
+        const reportError = new Error('Could not generate Allure report');
+        // Remove the extra comma and ensure command syntax is correct
+        const generation = allure(['generate', 'test/.artifacts/allure-results', '--report-dir', 'test/.artifacts/allure-report']);
+        converter.convertJSONFolderToExcel("test/.artifacts/json-reports");
+        return new Promise((resolve, reject) => {
+            const generationTimeout = setTimeout(() => reject(reportError), 5000);
+     
+            generation.on('exit', function(exitCode) {
+                clearTimeout(generationTimeout);
+                if (exitCode !== 0) {
+                    return reject(reportError);
+                }
+     
+                console.log('Allure report successfully generated');
+                resolve();
+            });
+        });
+    }
     /**
     * Gets executed when a refresh happens.
     * @param {string} oldSessionId session ID of the old session
