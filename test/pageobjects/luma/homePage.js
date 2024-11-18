@@ -1,64 +1,82 @@
-import Common from "../luma/common.js";
-import userData from "../../testData/lumaData.json";
+import Common from "./common.js";
+import lumaData from "../../testdata/lumaData.json";
+import emailGenerator from "../../helpers/emailGenerator.js";
 
-class Homepage extends Common{
-    constructor(){
-        super();
-        this.$category=data=>$(`//span[text()="${data}"]`);
-        this.$subCategory=data=>$(`//li[contains(@class,"${data}")]`);
-        this.$product=data=>$(`//li[contains(@class,"${data}")]`);
-        this.$productsPageHeader=()=>$(`//span[@data-ui-id="page-title-wrapper"]`);
-    }
+let userEmail;
 
+class Homepage extends Common {
+  constructor() {
+    super();
+    this.$createAccountPage = () =>
+      $('//span[@data-ui-id="page-title-wrapper"]');
+    this.$createAccount = () =>
+      $('(//div[@class="panel header"]//a[text()="Create an Account"][1])');
+    this.$enterDetails = data => $(`//input[@id="${data}"]`);
+    this.$submit = () => $('//button[@title="Create an Account"]');
+    this.$successMessage = () => $('//div[@data-ui-id="message-success"]');
+    this.$actionbutton = () => $('(//button[@class="action switch"])[1]');
+    this.$signOut = () =>
+      $('(//div[@class="customer-menu"]//a[normalize-space()="Sign Out"])[1]');
+    this.$signOutMessage = () => $('//span[text()="You are signed out"]');
+    this.$signIn = () =>
+      $('//div[@class="panel header"]//a[normalize-space()="Sign In"]');
+    this.$signInButton = () => $('//button[@class="action login primary"]');
+    this.$welcomeBanner = () =>
+      $('//div[@class="panel header"]//li[@class="greet welcome"]');
+  }
 
-    /**
-     * To search for a product for women
-     */
-    async searchWomenProduct(){
-        await this.hover(this.$category(userData.categoryWomen));
-        await this.hover(this.$subCategory(userData.top));
-        await this.clickElemenets(this.$product(userData.jacket));
-    }
+  /**
+   * To click on create Account
+   */
+  async clickCreateAccount() {
+    await this.$createAccount().click();
+  }
 
-    /**
-     * To search for a product for men
-     */
-    async searchMenProduct(){
-        await this.hover(this.$category(userData.categoryMen));
-        await this.hover(this.$subCategory(userData.bottom));
-        await this.clickElemenets(this.$product(userData.pant));
-        
-    }
+  /**
+   * /**
+   * To Enter account details
+   * @param {string} firstName
+   * @param {string} lastName
+   * @param {string} email
+   * @param {string} password
+   * @param {string} passwordConfirm
+   */
+  async enterAccountDetails(
+    firstName,
+    lastName,
+    email,
+    password,
+    passwordConfirm
+  ) {
+    userEmail = emailGenerator.generateRandomEmail();
+    await this.$enterDetails(firstName).setValue(lumaData.firstName);
+    await this.$enterDetails(lastName).setValue(lumaData.lastName);
+    await this.$enterDetails(email).setValue(userEmail);
+    await this.$enterDetails(password).setValue(lumaData.password);
+    await this.$enterDetails(passwordConfirm).setValue(
+      lumaData.passwordConfirm
+    );
+    await this.$submit().click();
+    await this.$successMessage().waitForDisplayed({
+      timeOut: 5000,
+      timeOutmsg: "User should be registered",
+    });
 
-    /**
-     * To search for a product from gear category
-     */
-    async searchGearProduct(){
-        await this.hover(this.$category(userData.categoryGear));
-        await this.clickElemenets(this.$product(userData.bag));
-        
-    }
+    
+  }
 
-     /**
-     * To search for a jacket for men
-     */
-     async searchMenAnotherProduct(){
-        await this.$category(userData.categoryMen).scrollIntoView();
-        await this.hover(this.$category(userData.categoryMen));
-        await this.hover(this.$subCategory(userData.topMen));
-        await this.clickElemenets(this.$product(userData.jacketMen));
-        
-    }
+  async userSignOut() {
+    await this.$actionbutton().click();
+    await this.$signOut().click();
+    await this.$signOutMessage().waitForDisplayed({ timeOut: 2000 });
+  }
 
-    /**
-     * To select My Account option from the dropdown
-     */
-    async selectMyAccount(){
-        await this.scrollAndClick(this.$profileName(userData.indexNumbers[0]));
-        await this.$myAccount(userData.indexNumbers[0]).waitForDisplayed({timeout:5000, timeoutMsg:"My account option should be displayed"});
-        await this.scrollAndClick(this.$myAccount(userData.indexNumbers[0]));
-    }
-
+  async userSignIn(email, passWord) {
+    await this.$signIn().click();
+    await this.$enterDetails(email).setValue(userEmail);
+    await this.$enterDetails(passWord).setValue(lumaData.password);
+    await this.$signInButton().click();
+    await this.$welcomeBanner().waitForDisplayed({ timeout: 5000 });
+  }
 }
-
-export default new Homepage;
+export default new Homepage();
