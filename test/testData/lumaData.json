@@ -2,20 +2,11 @@
     "invalid_email":"aleena123gmail.com",
 
     "password_list": ["abc", "aaaabbbb","abcd@123", "Abcd@123" ],
-    
-    "firstName": "firstname",
-    "lastName": "lastname",
-    "email":"email",
-    "password": "password",
-    "confirmPassword": "password_confirmation",
 
     "first_name": "Alina",
     "last_name":"Shaji",
     "password_":"Aleena$12345",
     "confirm_password":"Aleena$12345",
-
-    "email_sigin":"login[username]",
-    "password_sigin":"login[password]",
 
     "categoryWomen": "Women",
     "top":"level1 nav-2-1",

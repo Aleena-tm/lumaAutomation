@@ -51,12 +51,14 @@ class Productspage extends Common{
     /**
     * To select style filter option
     */
-    async selectFilterStyle(filterOption) {
-      await this.scrollAndClick(this.$filterOption(userData.filterOptions[0]));
-      await this.scrollAndClick(this.$chooseFilterList(filterOption));
-      await this.$filterHeader().waitForDisplayed({ timeout: 5000, timeOutMsg: "Product is not filtered" });
-      await this.$clearFilter().waitForDisplayed({ timeout: 5000, timeOutMsg: "Clear filter option is not present" });
-      }
+   async selectFilterStyle(filterOption) {
+       await this.scrollAndClick(this.$filterOption(userData.filterOptions[0]));
+       await this.scrollAndClick(this.$chooseFilterList(filterOption));
+       await this.$filterHeader().waitForDisplayed({timeout: 10000, timeoutMsg: "Product is not filtered"});
+       await this.$clearFilter().waitForDisplayed({timeout: 10000, timeoutMsg: "Clear filter option is not present"});
+       await browser.pause(1000); 
+   }
+
 
 
     /** 
@@ -66,8 +68,9 @@ class Productspage extends Common{
         {
            await this.scrollAndClick(this.$filterOption(userData.filterOptions[1])); 
            await this.scrollAndClick(this.$chooseFilterBox(filterOption));
-           await this.$filterHeader().waitForDisplayed({timeout: 5000, timeOutMsg: "Product is not filtered"});
-           await this.$clearFilter().waitForDisplayed({timeout: 5000, timeOutMsg: "Clear filter option is not present"});
+           await this.$filterHeader().waitForDisplayed({timeout: 10000, timeOutMsg: "Product is not filtered"});
+           await this.$clearFilter().waitForDisplayed({timeout: 10000, timeOutMsg: "Clear filter option is not present"});
+           await browser.pause(3000);
         }
 
    /**
@@ -77,8 +80,9 @@ class Productspage extends Common{
     {
        await this.scrollAndClick(this.$filterOption(userData.filterOptions[2])); 
        await this.scrollAndClick(this.$chooseFilterList(filterOption));
-       await this.$filterHeader().waitForDisplayed({timeout: 5000, timeOutMsg: "Product is not filtered"});
-       await this.$clearFilter().waitForDisplayed({timeout: 5000, timeOutMsg: "Clear filter option is not present"});
+       await this.$filterHeader().waitForDisplayed({timeout: 10000, timeOutMsg: "Product is not filtered"});
+       await this.$clearFilter().waitForDisplayed({timeout: 10000, timeOutMsg: "Clear filter option is not present"});
+       await browser.pause(1000);
    }
 
    /**
@@ -88,8 +92,9 @@ class Productspage extends Common{
     {
        await this.scrollAndClick(this.$filterOption(userData.filterOptions[3])); 
        await this.scrollAndClick(this.$chooseFilterBox(filterOption));
-       await this.$filterHeader().waitForDisplayed({timeout: 5000, timeOutMsg: "Product is not filtered"});
-       await this.$clearFilter().waitForDisplayed({timeout: 5000, timeOutMsg: "Clear filter option is not present"});
+       await this.$filterHeader().waitForDisplayed({timeout: 10000, timeOutMsg: "Product is not filtered"});
+       await this.$clearFilter().waitForDisplayed({timeout: 10000, timeOutMsg: "Clear filter option is not present"});
+       await browser.pause(1000);
    }
 
    /**
@@ -99,8 +104,9 @@ class Productspage extends Common{
     {
        await this.scrollAndClick(this.$filterOption(userData.filterOptions[4])); 
        await this.scrollAndClick(this.$chooseFilters(userData.filterOptionsList[0]));
-       await this.$filterHeader().waitForDisplayed({timeout: 5000, timeOutMsg: "Product is not filtered"});
-       await this.$clearFilter().waitForDisplayed({timeout: 5000, timeOutMsg: "Clear filter option is not present"}); 
+       await this.$filterHeader().waitForDisplayed({timeout: 10000, timeOutMsg: "Product is not filtered"});
+       await this.$clearFilter().waitForDisplayed({timeout: 10000, timeOutMsg: "Clear filter option is not present"}); 
+       await browser.pause(2000);
     }
 
     /**
@@ -110,8 +116,9 @@ class Productspage extends Common{
    {
       await this.scrollAndClick(this.$filterOption(userData.filterOptions[5])); 
       await this.scrollAndClick(this.$chooseFilters(userData.filterOptionsList[1]));
-      await this.$filterHeader().waitForDisplayed({timeout: 5000, timeOutMsg: "Product is not filtered"});
-      await this.$clearFilter().waitForDisplayed({timeout: 5000, timeOutMsg: "Clear filter option is not present"});
+      await this.$filterHeader().waitForDisplayed({timeout: 10000, timeOutMsg: "Product is not filtered"});
+      await this.$clearFilter().waitForDisplayed({timeout: 10000, timeOutMsg: "Clear filter option is not present"});
+      await browser.pause(2000);
    }
 
    /**
@@ -121,8 +128,9 @@ class Productspage extends Common{
    {
       await this.scrollAndClick(this.$filterOption(userData.filterOptions[6])); 
       await this.scrollAndClick(this.$chooseFilterList(filterOption));
-      await this.$filterHeader().waitForDisplayed({timeout: 5000, timeOutMsg: "Product is not filtered"});
-      await this.$clearFilter().waitForDisplayed({timeout: 5000, timeOutMsg: "Clear filter option is not present"});
+      await this.$filterHeader().waitForDisplayed({timeout: 10000, timeOutMsg: "Product is not filtered"});
+      await this.$clearFilter().waitForDisplayed({timeout: 10000, timeOutMsg: "Clear filter option is not present"});
+      await browser.pause(3000);
    }
 
    /**
@@ -132,8 +140,9 @@ class Productspage extends Common{
    {
       await this.scrollAndClick(this.$filterOption(userData.filterOptions[7])); 
       await this.scrollAndClick(this.$chooseFilters(userData.filterOptionsList[2]));
-      await this.$filterHeader().waitForDisplayed({timeout: 5000, timeOutMsg: "Product is not filtered"});
-      await this.$clearFilter().waitForDisplayed({timeout: 5000, timeOutMsg: "Clear filter option is not present"});
+      await this.$filterHeader().waitForDisplayed({timeout: 10000, timeOutMsg: "Product is not filtered"});
+      await this.$clearFilter().waitForDisplayed({timeout: 10000, timeOutMsg: "Clear filter option is not present"});
+      await browser.pause(2000);
    }
 
    /**
@@ -143,8 +152,9 @@ class Productspage extends Common{
    {
       await this.scrollAndClick(this.$filterOption(userData.filterOptions[8])); 
       await this.scrollAndClick(this.$chooseFilterList(filterOption));
-      await this.$filterHeader().waitForDisplayed({timeout: 5000, timeOutMsg: "Product is not filtered"});
-      await this.$clearFilter().waitForDisplayed({timeout: 5000, timeOutMsg: "Clear filter option is not present"});
+      await this.$filterHeader().waitForDisplayed({timeout: 10000, timeOutMsg: "Product is not filtered"});
+      await this.$clearFilter().waitForDisplayed({timeout: 10000, timeOutMsg: "Clear filter option is not present"});
+      await browser.pause(2000);
    }
 
    /**
@@ -154,8 +164,9 @@ class Productspage extends Common{
    {
       await this.scrollAndClick(this.$filterOption(userData.filterOptions[9])); 
       await this.scrollAndClick(this.$chooseFilters(userData.filterOptionsList[3]));
-      await this.$filterHeader().waitForDisplayed({timeout: 5000, timeOutMsg: "Product is not filtered"});
-      await this.$clearFilter().waitForDisplayed({timeout: 5000, timeOutMsg: "Clear filter option is not present"});
+      await this.$filterHeader().waitForDisplayed({timeout: 10000, timeOutMsg: "Product is not filtered"});
+      await this.$clearFilter().waitForDisplayed({timeout: 10000, timeOutMsg: "Clear filter option is not present"});
+      await browser.pause(2000);
    }
 
    /**
@@ -165,8 +176,9 @@ class Productspage extends Common{
    {
       await this.scrollAndClick(this.$filterOption(userData.filterOptions[10])) 
       await this.scrollAndClick(this.$chooseFilters(userData.filterOptionsList[4]));
-      await this.$filterHeader().waitForDisplayed({timeout: 5000, timeOutMsg: "Product is not filtered"});
-      await this.$clearFilter().waitForDisplayed({timeout: 5000, timeOutMsg: "Clear filter option is not present"});
+      await this.$filterHeader().waitForDisplayed({timeout: 10000, timeOutMsg: "Product is not filtered"});
+      await this.$clearFilter().waitForDisplayed({timeout: 10000, timeOutMsg: "Clear filter option is not present"});
+      await browser.pause(2000);
    }
 
    /**
@@ -176,8 +188,9 @@ class Productspage extends Common{
    {
       await this.scrollAndClick(this.$filterOption(userData.filterOptions[11])); 
       await this.scrollAndClick(this.$chooseFilters(userData.filterOptionsList[5]));
-      await this.$filterHeader().waitForDisplayed({timeout: 5000, timeOutMsg: "Product is not filtered"});
-      await this.$clearFilter().waitForDisplayed({timeout: 5000, timeOutMsg: "Clear filter option is not present"});
+      await this.$filterHeader().waitForDisplayed({timeout: 10000, timeOutMsg: "Product is not filtered"});
+      await this.$clearFilter().waitForDisplayed({timeout: 10000, timeOutMsg: "Clear filter option is not present"});
+      await browser.pause(2000);
    }
 
    /**
@@ -223,7 +236,7 @@ class Productspage extends Common{
     */
    async sortByNames(){
       await this.$sortBy().click();
-      await this.$sortByOptions(userData.sortingOptions[0]).waitForDisplayed({timeout:5000,timeoutMsg:"Product name option is not present"});
+      await this.$sortByOptions(userData.sortingOptions[0]).waitForDisplayed({timeout:10000,timeoutMsg:"Product name option is not present"});
       await this.$sortByOptions(userData.sortingOptions[0]).scrollIntoView();
       await this.$sortByOptions(userData.sortingOptions[0]).click();
       let productNames = [];
@@ -250,7 +263,7 @@ class Productspage extends Common{
       */
      async sortByPrice(){
       await this.$sortBy().click();
-      await this.$sortByOptions(userData.sortingOptions[1]).waitForDisplayed({timeout:5000,timeoutMsg:"Product name option is not present"});
+      await this.$sortByOptions(userData.sortingOptions[1]).waitForDisplayed({timeout:10000,timeoutMsg:"Product name option is not present"});
       await this.$sortByOptions(userData.sortingOptions[1]).scrollIntoView();
       await this.$sortByOptions(userData.sortingOptions[1]).click();
       let productPrices = [];
@@ -273,7 +286,7 @@ class Productspage extends Common{
 
      async sortByPosition(){
       await this.$sortBy().click();
-      await this.$sortByOptions(userData.sortingOptions[2]).waitForDisplayed({timeout:5000,timeoutMsg:"Product name option is not present"});
+      await this.$sortByOptions(userData.sortingOptions[2]).waitForDisplayed({timeout:10000,timeoutMsg:"Product name option is not present"});
       await this.$sortByOptions(userData.sortingOptions[2]).scrollIntoView();
       await this.$sortByOptions(userData.sortingOptions[2]).click();
       let productNames = [];
@@ -315,6 +328,7 @@ class Productspage extends Common{
           this.$productName(1).getText(),
           this.$productPrice(1).getText()
       ]);
+      await this.$addToWishList(userData.indexNumbers[0]).waitForDisplayed({timeout:10000, timeoutMsg:"Add to wishlist button should be displayed"});
       return [name, price];
       }
 
@@ -322,7 +336,8 @@ class Productspage extends Common{
        * To add a product to the wishlist
        */
       async addToWishList(){
-       await this.clickElemenets(this.$addToWishList(userData.indexNumbers[0]));
+       await this.hover(this.$addToWishList(userData.indexNumbers[0]));
+       await this.scrollAndClick(this.$addToWishList(userData.indexNumbers[0]));
        await this.$wishlistHeader().waitForDisplayed({timeout:5000,timeoutMsg:"Wishlist page should be loaded"});
       }
 
@@ -363,8 +378,8 @@ class Productspage extends Common{
        */
       async addProductToCart(){
          await this.hover(this.$productName(userData.indexNumbers[3]));
-         await this.$addToCart(userData.indexNumbers[3]).waitForDisplayed({timeout:5000, timeoutMsg: "Add to cart button should be displayed"});
-         await this.clickElemenets(this.$addToCart(userData.indexNumbers[3]));
+         await this.$addToCart(userData.indexNumbers[3]).waitForDisplayed({timeout:10000, timeoutMsg: "Add to cart button should be displayed"});
+         await this.scrollAndClick(this.$addToCart(userData.indexNumbers[3]));
          await this.$addedToCartValidation().waitForDisplayed({timeout:10000, timeOutMsg:"Products should be added to cart"});
          await browser.pause(3000);
       }

@@ -1,10 +1,21 @@
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+ 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const credentialsFilePath = path.join(__dirname, '../../testData/credentials.json');
+ 
 import Common from "../luma/common.js";
 import userData from "../../testData/lumaData.json";
+import credentialData from "../../testData/credentials.json";
+// const userEmail= "";
+
 
 class Landingpage extends Common {
   constructor() {
     super();
-    this.userEmail = null;
+    this.userEmail= "";
     this.$createUserAccount = () => $(`(//a[text()="Create an Account"])[1]`);
     this.$enterMandatoryDetails = () => $(`//div[@id="email_address-error"]`);
     this.$errorMessageForPassword=()=> $(`//div[@id="password-error"]`);
@@ -34,14 +45,19 @@ class Landingpage extends Common {
    * 
    * @param {string} password 
    */
-  async validatePassword(password) {
-    await this.$enterDetails(userData.password).setValue(password);
-    const [errorMessageOfPassword, passwordStrengths] = await Promise.all([
-        this.$errorMessageForPassword().getText(),
-        this.$passwordStrength().getText()
-    ]);
-    await this.$enterDetails(userData.password).clearValue(); 
-    return [errorMessageOfPassword, passwordStrengths]; 
+  async validatePassword(enterPassword) {
+    let results = [];
+
+    for (let password of userData.password_list) {
+        await this.$enterDetails(enterPassword).setValue(password);
+        let [errorMessageOfPassword, passwordStrengths] = await Promise.all([
+            this.$errorMessageForPassword().getText(),
+            this.$passwordStrength().getText()
+        ]);
+        results.push({ password, errorMessageOfPassword, passwordStrengths });
+        await this.$enterDetails(enterPassword).clearValue();  
+    }
+    return results;
 }
 
 
@@ -51,10 +67,10 @@ class Landingpage extends Common {
    * @param {string} lastname
    * @param {string} invalid_email
    */
-  async toVerifyValidEmail(firstname, lastname, invalid_email) {
-    await this.$enterDetails(userData.firstName).setValue(firstname);
-    await this.$enterDetails(userData.lastName).setValue(lastname);
-    await this.$enterDetails(userData.email).setValue(invalid_email);
+  async toVerifyValidEmail(firstName, lastName, email) {
+    await this.$enterDetails(firstName).setValue(userData.first_name);
+    await this.$enterDetails(lastName).setValue(userData.last_name);
+    await this.$enterDetails(email).setValue(userData.invalid_email);
     await this.scrollAndClick(this.$submit());
   }
 
@@ -65,24 +81,28 @@ class Landingpage extends Common {
    * @param {string} password
    * @param {string} confirmPassword
    */
-  async createAccount(firstname, lastname, password, confirmPassword) {
+  async createAccount(firstName, lastName, email, password, confirmPassword) {
     let emailPrefix = Math.floor(Math.random() * 10000);
-    this.userEmail = `exj${emailPrefix}@gmail.com`;
+    this.userEmail = `tyul${emailPrefix}@gmail.com`;
 
-    await this.$enterDetails(userData.firstName).setValue(firstname);
-    await this.$enterDetails(userData.lastName).setValue(lastname);
-    await this.$enterDetails(userData.email).setValue(this.userEmail);
-    await this.$enterDetails(userData.password).setValue(password);
-    await this.$enterDetails(userData.confirmPassword).setValue(
-      confirmPassword
-    );
+    let credentials={
+      userName: this.userEmail,
+      passWord: userData.password_
+    }
+    fs.writeFileSync(credentialsFilePath, JSON.stringify(credentials, null, 2), 'utf-8');
+
+    await this.$enterDetails(firstName).setValue(userData.first_name);
+    await this.$enterDetails(lastName).setValue(userData.last_name);
+    await this.$enterDetails(email).setValue(this.userEmail);
+    await this.$enterDetails(password).setValue(userData.password_);
+    await this.$enterDetails(confirmPassword).setValue(userData.confirm_password);
     await this.scrollAndClick(this.$submit());
     await this.$successMessage().waitForDisplayed({
       timeout: 5000,
       timeoutMsg: "User account is not created",
     });
 
-    return this.userEmail;
+    // return userEmail;
   }
 
   /**
@@ -101,15 +121,16 @@ class Landingpage extends Common {
    * To enter sigin credentailas
    * @param {string} password
    */
-  async userSignin(password) {
-    const emailAddress = this.userEmail;
-
+  async userSignin(username,passwordText) {
+    
     await this.scrollAndClick(this.$signin());
-    await this.$enterDetails(userData.email_sigin).setValue(emailAddress);
-    await this.$enterDetails(userData.password_sigin).setValue(password);
+    await this.$enterDetails(username).waitForDisplayed({timeout:5000, timeoutMsg:"Username filed shouls be displayed"});
+    await this.$enterDetails(username).setValue(credentialData.userName);
+    await this.$enterDetails(passwordText).waitForDisplayed({timeout:5000, timeoutMsg:"Username filed shouls be displayed"});
+    await this.$enterDetails(passwordText).setValue(credentialData.passWord);
     await this.scrollAndClick(this.$siginButton());
     await this.$siginMessage().waitForDisplayed({
-      timeout: 3000,
+      timeout: 5000,
       timeoutMsg: "User is not signed in",
     });
   }

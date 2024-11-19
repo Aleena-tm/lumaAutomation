@@ -1,15 +1,15 @@
 /**
  * imports
  */
-import landingPage from "../pageobjects/luma/landing.js";
 import homePage from "../pageobjects/luma/homePage.js";
 import productsPage from "../pageobjects/luma/productsPage.js";
-import userData from "../testData/lumaData.json";
 import productDetailsPage from "../pageobjects/luma/productDetails.js";
 import cartPopupPage from "../pageobjects/luma/cartPopup.js";
 import cartPage from "../pageobjects/luma/cartPage.js";
 import checkoutPage from "../pageobjects/luma/checkout.js";
 import myAccountPage from "../pageobjects/luma/myAccountPage.js";
+import landingPage from "../pageobjects/luma/landing.js";
+import userData from "../testData/lumaData.json";
 
 let password, filterOption, isSorted, productNames,errorMessage, passwordStrength, nameOfProduct, priceOfProduct, productName, productPrice, value;
 let cartQuantity, nameMiniCart, priceMiniCart, totalMiniCart;
@@ -24,7 +24,8 @@ let cartPageDetails =[];
 let shippingProductDetails =[];
 let wishListnameAndPrice=[];
 
-describe("End to end workflow for Luma", () => {
+
+describe("End to end workflow of Luma website", () => {
   it("Load URL of the webpage and the icon of luma should be displayed", async () => {
     await landingPage.loadURL();
     expect(await landingPage.$lumaIcon().isDisplayed())
@@ -40,19 +41,14 @@ describe("End to end workflow for Luma", () => {
   });
 
   it("Verify that the Email field only takes valid input data and validate the error message", async () => {
-    await landingPage.toVerifyValidEmail(
-      userData.first_name,
-      userData.last_name,
-      userData.invalid_email
-    );
+    await landingPage.toVerifyValidEmail("firstname", "lastname", "email");
     expect(await landingPage.$enterValidEmail().isDisplayed())
       .withContext("Error message should be displayed")
       .toBeTrue();
   });
 
-  it("Verify the strength of the password field and validate the error messages", async () => {
-    for (password of userData.password_list) {
-    errorMessages = await landingPage.validatePassword(password);
+  it("Verify the weak strength of the password field and validate the error messages", async () => {
+    errorMessages = await landingPage.validatePassword("password");
       if (passwordStrength === "weak") {
         expect(await landingPage.$passwordStrength().isDisplayed())
           .withContext(`Password strength should be strong`)
@@ -61,10 +57,14 @@ describe("End to end workflow for Luma", () => {
           .toSatisfy(
             (msg) =>
               msg.includes("minimum length") ||
-              msg.includes("different classes of characters")
-          )
-          .withContext(`Error message should be displayed`);
-      } else if (passwordStrength === "medium") {
+              msg.includes("different classes of characters"))
+          .withContext(`Error message should be displayed`)
+          .toBeTrue();
+      } 
+    });
+      
+  it("Verify the medium and strong strength of the password field and validate the error messages", async () => {
+      if (passwordStrength === "medium") {
         expect(await landingPage.$passwordStrength().isDisplayed())
           .withContext(`Password strength should be medium`)
           .toBeTrue();
@@ -73,16 +73,10 @@ describe("End to end workflow for Luma", () => {
           .withContext(`Password strength should be strong`)
           .toBeTrue();
       }
-    }
   });
 
   it("Create an account for the user and validate the success message", async () => {
-    await landingPage.createAccount(
-      userData.first_name,
-      userData.last_name,
-      userData.password_,
-      userData.confirm_password
-    );
+    await landingPage.createAccount("firstname","lastname","email","password","password_confirmation");
     expect(await landingPage.$successMessage().isDisplayed())
       .withContext("User should be registered")
       .toBeTrue();
@@ -96,13 +90,13 @@ describe("End to end workflow for Luma", () => {
   });
 
   it("User should sign in using existing credentials and validate the sign in message", async () => {
-    await landingPage.userSignin(userData.password_);
+    await landingPage.userSignin("login[username]","login[password]");
     expect(await landingPage.$siginMessage().isDisplayed())
       .withContext("User should signed in")
       .toBeTrue();
   });
 
-  it("User should search for a product from men category at the navigation bar and validate products page header", async () => {
+it("User should search for a product from men category at the navigation bar and validate products page header", async () => {
     await homePage.searchMenProduct();
     expect(await homePage.$productsPageHeader().isDisplayed())
       .withContext("Product page should be displayed")
@@ -746,14 +740,5 @@ describe("End to end workflow for Luma", () => {
       .toBeTrue()
 
   })
-
-
-  
-
- 
-  
-
- 
-
 
 });
