@@ -337,7 +337,8 @@ class Productspage extends Common{
        */
       async addToWishList(){
        await this.hover(this.$addToWishList(userData.indexNumbers[0]));
-       await this.scrollAndClick(this.$addToWishList(userData.indexNumbers[0]));
+       await this.$addToWishList(userData.indexNumbers[0]).waitForDisplayed({timeout:10000, timeoutMsg:"Wishlist button should be visible"});
+       await this.clickElemenets(this.$addToWishList(userData.indexNumbers[0]));
        await this.$wishlistHeader().waitForDisplayed({timeout:5000,timeoutMsg:"Wishlist page should be loaded"});
       }
 
@@ -379,9 +380,10 @@ class Productspage extends Common{
       async addProductToCart(){
          await this.hover(this.$productName(userData.indexNumbers[3]));
          await this.$addToCart(userData.indexNumbers[3]).waitForDisplayed({timeout:10000, timeoutMsg: "Add to cart button should be displayed"});
-         await this.scrollAndClick(this.$addToCart(userData.indexNumbers[3]));
+         await this.clickElemenets(this.$addToCart(userData.indexNumbers[3]));
          await this.$addedToCartValidation().waitForDisplayed({timeout:10000, timeOutMsg:"Products should be added to cart"});
          await browser.pause(3000);
+         
       }
 
       /**

@@ -51,10 +51,7 @@ describe("TC_010: Successfull functionality of My Account option of Luma", () =>
   })
 
   it("User should create new account from the my account page", async()=>{
-    await myAccountPage.createNewAccount(userData._first_name,
-      userData._last_name,
-      userData._password_,
-      userData._confirm_password);
+    await myAccountPage.createNewAccount("firstname", "lastname", "email", "password", "password_confirmation");
     expect(await myAccountPage.$successMessage().isDisplayed())
       .withContext("New account should be created")
       .toBeTrue();
@@ -75,7 +72,7 @@ describe("TC_010: Successfull functionality of My Account option of Luma", () =>
   });
 
   it("User should sign in using the previous credentials", async () => {
-    await landingPage.userSignin(userData.password_);
+    await landingPage.userSignin("login[username]","login[password]");
     expect(await landingPage.$siginMessage().isDisplayed())
       .withContext("User is not signed in")
       .toBeTrue();
