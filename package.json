@@ -13,6 +13,7 @@
   },
   "scripts": {
     "luma": "wdio run ./wdio.conf.js",
+    "suite1":"wdio run wdio.conf.js --suite suite1",
     "allureCombine": "node ./node_modules/allure-single-html-file-js/combine.js ./test/.artifacts/allure-report",
     "openReport": "allure open test/.artifacts/allure-report"
   },

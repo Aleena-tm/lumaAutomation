@@ -30,8 +30,12 @@ export const config = {
     // of the config file unless it's absolute.
     //
     specs: [
-        './test/specs/luma.e2e.spec.js'
+        // './test/specs/luma.e2e.spec.js'
     ],
+    suites: {
+        suite1: ['./test/specs/Luma/**/*.js'],
+        // suite2: ['./test/specs/lumaSearch.spec.js'],
+    },
     // Patterns to exclude.
     exclude: [
         // 'path/to/excluded/files'
@@ -52,14 +56,19 @@ export const config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 10,
+    maxInstances: 1,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'chrome'
+        maxInstances: 1,
+        browserName: 'chrome',
+        acceptInsecureCerts: true,
+        // 'goog:chromeOptions': {
+        //     args: ['--headless','--disable-gpu', '--window-size=1920,1080'],
+        // },
     }],
 
     //
@@ -103,7 +112,7 @@ export const config = {
     connectionRetryTimeout: 120000,
     //
     // Default request retries count
-    connectionRetryCount: 3,
+    connectionRetryCount: 1,
     //
     // Test runner services
     // Services take over a specific job you don't want to take care of. They enhance
