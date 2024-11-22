@@ -7,6 +7,9 @@ import myAccountPage from "../../pageobjects/luma/myAccountPage.js";
 import landingPage from "../../pageobjects/luma/landing.js";
 import userData from "../../testData/lumaData.json";
 
+
+
+
 let password, filterOption, isSorted, productNames,errorMessage, passwordStrength, nameOfProduct, priceOfProduct, productName, productPrice, value;
 let cartQuantity, nameMiniCart, priceMiniCart, totalMiniCart;
 let productQuantity = userData.quantities[1];
