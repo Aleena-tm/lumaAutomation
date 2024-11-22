@@ -21,7 +21,7 @@ jobs:
         run: npm install
 
       - name: Run WebdriverIO Tests
-        run: npx wdio run wdio.conf.js --suite suite1
+        run: npm run suite1
 
       - name: Install Allure CommandLine
         run: npm install -g allure-commandline
