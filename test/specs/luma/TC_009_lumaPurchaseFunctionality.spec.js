@@ -8,7 +8,7 @@ import landingPage from "../../pageobjects/luma/landing.js";
 import userData from "../../testData/lumaData.json";
 
 let password, filterOption, isSorted, productNames,errorMessage, passwordStrength, nameOfProduct, priceOfProduct, productName, productPrice, value;
-let cartQuantity, nameMiniCart, priceMiniCart, totalMiniCart;
+let cartQuantity, nameMiniCart, priceMiniCart, totalMiniCart, handles, orderPlacedNumber, orderNumberReceipt;
 let productQuantity = userData.quantities[1];
 let productColor = userData.filterOptionsColor[0];
 let productSize = userData.filterOptionsSize[1];
@@ -106,14 +106,28 @@ describe("TC_009: Successfull purchasing of products from Luma", () => {
       .toBeTrue();
   })
 
-  it("User should place order to purchase the products", async()=>{
-    await checkoutPage.placeOrder();
-    expect(await checkoutPage.$thankyouPage().isDisplayed())
-      .withContext("User is navigated to the Thankyou page")
+  it("User should place order to purchase the products and validate the order number", async()=>{
+    orderPlacedNumber= await checkoutPage.placeOrder();
+    expect(await checkoutPage.$orderNumber().isDisplayed())
+      .withContext("User is navigated to the Thankyou page and order number is displayed")
       .toBeTrue();
+  })
+
+  it("User should click on print receipt option and validate the order number", async()=>{
+    await checkoutPage.clickPrintReceipt()
+    handles = await browser.getWindowHandles();
+    await browser.switchToWindow(handles[1]);
+    orderNumberReceipt= await checkoutPage.printReceipt();
+    console.log(orderNumberReceipt);
+    console.log(orderPlacedNumber);
+    expect(orderNumberReceipt)
+      .withContext("Order number on the print receipt popup should be same as the order number on the thankyou page")
+      .toEqual(orderPlacedNumber);
   })
  
   it("User should return back to home page after completing purchase of the products", async()=>{
+    handles = await browser.getWindowHandles();
+    await browser.switchToWindow(handles[0]);
     await checkoutPage.continueShopping();
     expect(await homePage.$lumaIcon().isDisplayed())
       .withContext("User should be navigated to the home page")

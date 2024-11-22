@@ -20,6 +20,10 @@ class Checkoutpage extends Common{
         this.$shippingMethod=()=>$(`(//input[@class="radio"])[1]`);
         this.$shoppingContinue=()=>$(`//a//span[text()="Continue Shopping"]`);
         this.$shippingHeader=()=>$(`//div[text()="Shipping Address"]`);
+        this.$orderNumber=()=>$(`//a[@class="order-number"]/strong`);
+        this.$print=()=>$(`//a[@class="action print"]`);
+        this.$popupCancel=()=>$('//button[@type="button"]/span[.="Cancel"]');
+        this.$receiptOrderNumber=()=>$(`//h1[@class="page-title"]/span`);
         
     }
 
@@ -78,11 +82,16 @@ class Checkoutpage extends Common{
     }
 
     /**
-     * To click on place order 
+     * To place order and validate the order number
+     * @returns number
      */
     async placeOrder(){
         await this.scrollAndClick(this.$placeOrder());
         await this.$thankyouPage().waitForDisplayed({ timeout: 5000, timeoutMsg: "Thank you page should be displayed" });
+        let orderNumberText = await this.$orderNumber().getText();
+        let orderNumber = parseInt(orderNumberText);
+        await this.$print().waitForDisplayed({timeout: 10000, timeoutMsg: "Thank you page should be displayed" });
+        return orderNumber;
     }
 
     /**
@@ -98,7 +107,30 @@ class Checkoutpage extends Common{
     async moveToPaymentPage(){
         await this.scrollAndClick(this.$next());
         await this.$spinner().waitForDisplayed({timeout:5000,reverse:true});
-        await this.$reviewAndPayments().waitForDisplayed({timeout:5000, timeoutMsg:"Should load payment page"});
+        await this.$reviewAndPayments().waitForDisplayed({timeout:10000, timeoutMsg:"Should load payment page"});
+    }
+
+    /**
+     * To click on print rceipt option
+     */
+    async clickPrintReceipt(){
+        await this.scrollAndClick(this.$print());
+        // await this.$popupCancel().waitForDisplayed({timeout:10000, timeoutMsg:"Cancel button should be displayed"});
+    }
+
+    /**
+     * To validate the order number present on the receipt
+     * @returns number
+     */
+    async printReceipt(){
+        // await this.$popupCancel().waitForDisplayed({timeout:3000, timeoutMsg:"Cancel button should be displayed"});
+        // await this.$popupCancel().waitForClickable({timeout:3000, timeoutMsg:"Cancel button should be clickable"});
+        // await this.clickElemenets(this.$popupCancel());
+        await this.$receiptOrderNumber().waitForDisplayed({timeout:10000, timeoutMsg:"order number should be displayed"});
+        let orderNumberText = await this.$receiptOrderNumber().getText();
+        let orderNumber = orderNumberText.slice(orderNumberText.indexOf('#') + 2).trim();
+        let numericOrderNumber = parseInt(orderNumber);
+        return numericOrderNumber;
     }
     
     

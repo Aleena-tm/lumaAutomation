@@ -58,6 +58,8 @@ describe("TC_004: Successful sorting functionality of Luma", () => {
 
   it("Verify the user can sort the products according to position", async () => {
     productNames = await productsPage.sortByPosition();
+    console.log(productNames);
+    console.log(userData.nameOfProducts);
     expect(productNames)
       .withContext("Products should be sorted according to position")
       .toEqual(userData.nameOfProducts);
