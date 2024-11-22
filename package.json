@@ -13,13 +13,14 @@
   },
   "scripts": {
     "luma": "wdio run ./wdio.conf.js",
-    "suite1":"wdio run wdio.conf.js --suite suite1",
+    "suite1": "wdio run wdio.conf.js --suite suite1",
     "allureCombine": "node ./node_modules/allure-single-html-file-js/combine.js ./test/.artifacts/allure-report",
     "openReport": "allure open test/.artifacts/allure-report"
   },
   "dependencies": {
     "allure-commandline": "^2.32.0",
     "allure-single-html-file-js": "^0.0.6",
+    "axios": "^1.7.7",
     "exceljs": "^4.4.0"
   }
 }

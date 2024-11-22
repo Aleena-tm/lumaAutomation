@@ -1,5 +1,7 @@
 import allure from 'allure-commandline';
+import AllureReporter from '@wdio/allure-reporter';
 import fs from 'fs';
+import axios from 'axios'; 
 import helpers from './test/helpers/overWriteArtifacts.js';
 import JSONReporter from './custom_report/jsonReporter.js';
 import JSONToExcelConverter from "./custom_report/jsonConvertor.js";
@@ -34,7 +36,11 @@ export const config = {
     ],
     suites: {
         suite1: ['./test/specs/Luma/**/*.js'],
-        // suite2: ['./test/specs/lumaSearch.spec.js'],
+        // suite1: ['./test/specs/luma/TC_001_lumaSignup.spec.js',
+        //          './test/specs/luma/TC_002_lumaSearch.spec.js',
+        //          './test/specs/luma/TC_006_lumaProductDetailsValidation.spec.js',
+        //          './test/specs/luma/TC_007_lumaWishlist.spec.js',
+        //          './test/specs/luma/TC_009_lumaPurchaseFunctionality.spec.js'],
     },
     // Patterns to exclude.
     exclude: [
@@ -98,9 +104,9 @@ export const config = {
     // bail (default is 0 - don't bail, run all tests).
     bail: 0,
     //
-    // Set a base URL in order to shorten url command calls. If your `url` parameter starts
-    // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
-    // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
+    // Set a base URL in order to shorten url command calls. If your url parameter starts
+    // with /, the base url gets prepended, not including the path portion of your baseUrl.
+    // If your url parameter starts without a scheme or / (like some/path), the base url
     // gets prepended directly.
     // baseUrl: 'http://localhost:8080',
     //
@@ -118,7 +124,7 @@ export const config = {
     // Services take over a specific job you don't want to take care of. They enhance
     // your test setup with almost no effort. Unlike plugins, they don't add new
     // commands. Instead, they hook themselves up into the test process.
-    services: ['visual'],
+    services: ['devtools'],
 
     // Framework you want to run your specs with.
     // The following are supported: Mocha, Jasmine, and Cucumber
@@ -227,7 +233,7 @@ export const config = {
     // },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
-     * variables like `browser`. It is the perfect place to define custom commands.
+     * variables like browser. It is the perfect place to define custom commands.
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs        List of spec file paths that are to be run
      * @param {object}         browser      instance of created browser/device session
@@ -250,8 +256,28 @@ export const config = {
     /**
      * Function to be executed before a test (in Mocha/Jasmine) starts.
      */
-    // beforeTest: function (test, context) {
-    // },
+    beforeTest: async (test) => {
+    global.axios = axios; // Make Axios globally available for API calls
+    global.networkRequests = []; // Store all network requests for the test
+
+    // Enable Network tracking via Chrome DevTools Protocol
+    await browser.cdp('Network', 'enable');
+
+    // Listen for network requests and capture their details
+    await browser.on('Network.requestWillBeSent', (params) => {
+        const { requestId, request } = params;
+
+        // Store request details in global array
+        global.networkRequests.push({
+            requestId,
+            url: request.url,
+            method: request.method,
+            headers: request.headers,
+            postData: request.postData || null,
+        });
+    });
+},
+    
     /**
      * Hook that gets executed _before_ a hook within the suite starts (e.g. runs before calling
      * beforeEach in Mocha)
@@ -268,17 +294,43 @@ export const config = {
      * Function to be executed after a test (in Mocha/Jasmine only)
      * @param {object}  test             test object
      * @param {object}  context          scope object the test was executed with
-     * @param {Error}   result.error     error object in case the test fails, otherwise `undefined`
+     * @param {Error}   result.error     error object in case the test fails, otherwise undefined
      * @param {*}       result.result    return object of test function
      * @param {number}  result.duration  duration of test
      * @param {boolean} result.passed    true if test has passed, otherwise false
-     * @param {object}  result.retries   information about spec related retries, e.g. `{ attempts: 0, limit: 0 }`
+     * @param {object}  result.retries   information about spec related retries, e.g. { attempts: 0, limit: 0 }
      */
-    afterTest: async function(test, context, { error, result, duration, passed, retries }) {
+    afterTest: async (test, context, { error, result, duration, passed, retries }) => {
         if (error) {
+            console.log(`Test failed: ${test.description}`);
             await browser.takeScreenshot();
+    
+            // Log all network requests captured during the test
+            console.log('Captured network requests:', global.networkRequests);
+    
+            // Attach network requests to Allure
+            AllureReporter.addAttachment(
+                'Captured Network Requests',
+                JSON.stringify(global.networkRequests, null, 2),
+                'application/json'
+            );
+    
+            // Handle failure-specific logic (e.g., API calls)
+            const failureContext = {
+                testName: test.description,
+                errorMessage: error.message,
+                pageUrl: await browser.getUrl(),
+                networkRequests: global.networkRequests,
+            };
+    
+            await makeApiCallOnFailure(failureContext);
         }
+        
+        // Clean up network requests for the next test
+        global.networkRequests = [];
     },
+    
+      
 
 
     /**
@@ -359,4 +411,54 @@ export const config = {
     */
     // afterAssertion: function(params) {
     // }
+
+    
+};
+
+async function makeApiCallOnFailure(failureContext) {
+    try {
+        // Log API request details in Allure
+        AllureReporter.addStep('Triggering API call for failure context', JSON.stringify(failureContext, null, 2));
+
+        const response = await axios.post('https://your-api-endpoint.com/debug', {
+            failureContext: failureContext,
+            timestamp: new Date().toISOString(),
+        });
+
+        // Capture and log API response details
+        const responseDetails = {
+            statusCode: response.status,
+            headers: response.headers,
+            data: response.data,
+        };
+
+        // Log API response in Allure
+        AllureReporter.addAttachment(
+            'API Response',
+            `Status Code: ${response.status}\nHeaders: ${JSON.stringify(response.headers, null, 2)}\nResponse Data: ${JSON.stringify(response.data, null, 2)}`,
+            'application/json'
+        );
+
+        console.log('API Response:', responseDetails);
+    } catch (error) {
+        // Handle and log API error response
+        const errorDetails = error.response
+            ? {
+                  statusCode: error.response.status,
+                  headers: error.response.headers,
+                  data: error.response.data,
+              }
+            : { message: error.message };
+
+        // Format error details for Allure
+        const errorAttachment = error.response
+            ? `Status Code: ${error.response.status}\nHeaders: ${JSON.stringify(error.response.headers, null, 2)}\nError Data: ${JSON.stringify(error.response.data, null, 2)}`
+            : `Error Message: ${error.message}`;
+
+        // Log error details in Allure
+        AllureReporter.addAttachment('API Call Error', errorAttachment, 'text/plain');
+
+        console.error('Error making API call:', errorDetails);
+    }
 }
+
