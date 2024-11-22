@@ -443,6 +443,7 @@ class Productspage extends Common{
              await this.scrollAndClick(this.$updateQuantity(index));
          }
          await this.scrollAndClick(this.$proceedToCheckout());
+         await this.$spinner().waitForDisplayed({timeout:5000,reverse:true});
      }
 
      /**

@@ -164,6 +164,12 @@ describe("TC_006: Successful validation of product details of Luma", () => {
     
       it("Verify the product name, quantity and price on the checkout page", async()=>{
         shippingProductDetails = await checkoutPage.verifyShippingDetails();
+        console.log(shippingProductDetails[0]);
+        console.log(nameAndPrice[0]);
+        console.log(shippingProductDetails[1]);
+        console.log(productQuantity);
+        console.log(shippingProductDetails[2]);
+        console.log(detailsOfCartPopup[2]);
         expect(shippingProductDetails[0])
           .withContext("Product names should be same")
           .toEqual(nameAndPrice[0]);
