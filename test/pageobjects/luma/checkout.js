@@ -19,6 +19,7 @@ class Checkoutpage extends Common{
         this.$orderDetails=()=>$(`//strong[text()="Order Total"]`);
         this.$shippingMethod=()=>$(`(//input[@class="radio"])[1]`);
         this.$shoppingContinue=()=>$(`//a//span[text()="Continue Shopping"]`);
+        this.$shippingHeader=()=>$(`//div[text()="Shipping Address"]`);
         
     }
 

@@ -43,25 +43,18 @@ class MyAccountPage extends Common{
      * @param {string} confirmPassword 
      * @returns string
      */
-    async createNewAccount(firstname, lastname, password, confirmPassword) {
+    async createNewAccount(firstname, lastname, email, password, confirmPassword) {
             await this.scrollAndClick(this.$createAnAccount());
             let emailPrefix = Math.floor(Math.random() * 1000);
             this.userEmail = `edkl${emailPrefix}@gmail.com`;
         
-            await this.$enterDetails(userData.firstName).setValue(firstname);
-            await this.$enterDetails(userData.lastName).setValue(lastname);
-            await this.$enterDetails(userData.email).setValue(this.userEmail);
-            await this.$enterDetails(userData.password).setValue(password);
-            await this.$enterDetails(userData.confirmPassword).setValue(
-              confirmPassword
-            );
+            await this.$enterDetails(firstname).setValue(userData._first_name);
+            await this.$enterDetails(lastname).setValue(userData._last_name);
+            await this.$enterDetails(email).setValue(this.userEmail);
+            await this.$enterDetails(password).setValue(userData._password_);
+            await this.$enterDetails(confirmPassword).setValue(userData._confirm_password);
             await this.scrollAndClick(this.$submit());
-            await this.$successMessage().waitForDisplayed({
-              timeout: 5000,
-              timeoutMsg: "User account is not created",
-            });
-        
-            return this.userEmail;
+            await this.$successMessage().waitForDisplayed({timeout: 5000,timeoutMsg: "User account is not created"});
     }
 
     /**
