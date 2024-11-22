@@ -25,7 +25,7 @@ jobs:
 
       - name: Run WebdriverIO Tests
         run: |
-          npm run lumaFlow
+          npm run suite1
           echo "Exit Code: $?" # Print the exit code of the test run
 
       - name: Install Allure CommandLine
