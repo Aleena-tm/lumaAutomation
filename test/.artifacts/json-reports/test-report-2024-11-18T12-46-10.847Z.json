@@ -1,34 +1,34 @@
 [
   {
-    "timestamp": "2024-11-18T12:01:52.316Z",
+    "timestamp": "2024-11-18T12:45:57.539Z",
     "suiteName": "User account creation and log insuite1",
     "testName": "To be able to load the URL",
     "status": "PASSED",
     "error": ""
   },
   {
-    "timestamp": "2024-11-18T12:01:54.388Z",
+    "timestamp": "2024-11-18T12:45:59.625Z",
     "suiteName": "User account creation and log insuite1",
     "testName": "To be able to click on Create an Account",
     "status": "PASSED",
     "error": ""
   },
   {
-    "timestamp": "2024-11-18T12:01:58.859Z",
+    "timestamp": "2024-11-18T12:46:03.923Z",
     "suiteName": "User account creation and log insuite1",
     "testName": "To able to enter the details for account creation",
     "status": "PASSED",
     "error": ""
   },
   {
-    "timestamp": "2024-11-18T12:02:01.156Z",
+    "timestamp": "2024-11-18T12:46:06.161Z",
     "suiteName": "User account creation and log insuite1",
     "testName": "To be able to sign out succesfully and validate sign out message",
     "status": "PASSED",
     "error": ""
   },
   {
-    "timestamp": "2024-11-18T12:02:05.914Z",
+    "timestamp": "2024-11-18T12:46:10.778Z",
     "suiteName": "User account creation and log insuite1",
     "testName": "To be able to sign in succesfully with the new user credentials",
     "status": "PASSED",
